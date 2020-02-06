@@ -21,6 +21,10 @@ public class MainGui {
 			"ForbiddenArchives");
 	public OrgoService orgoservice = new OrgoService(con);
 	public UserService userservice = new UserService(con);
+	public TheoryService theoryservice = new TheoryService(con);
+	public EventService eventservice = new EventService(con);
+	public PersonService personservice = new PersonService(con);
+	
 	private String[] orgodisplays = { "Organization name", "Description", "Attributes", "Date of Establishment" };
 	private String[][] orgodata;
 	private JTable todisp = new JTable(orgodata, orgodisplays);
@@ -32,6 +36,7 @@ public class MainGui {
 		ArrayList<String> orgdesc = this.orgoservice.getOrganizationDesc();
 		ArrayList<String> orgdoe = this.orgoservice.getOrganizationDoe();
 		ArrayList<String> orgatt = this.orgoservice.getOrganizationatt();
+		
 
 		ArrayList<String[]> transform = new ArrayList<String[]>();
 		for (int k = 0; k < orgnam.size(); k++) {
@@ -59,7 +64,7 @@ public class MainGui {
 	}
 
 	public MainGui() {
-		con.connect("ForbiddenArchives20", "ENC(F3wD2QXHsVgLOh2A4NwqBLeW4MiGuZq4TgNCpk8nB8s=)");
+		con.connect("ForbiddenArchives20", "KillPoliticians69");
 
 		// main Jpanel constrution
 		GridBagLayout orgo = new GridBagLayout();
@@ -352,6 +357,8 @@ public class MainGui {
 		gbc.gridx = 2;
 		gbc.gridy = 3;
 		editorgo.add(addorgo, gbc);
+		
+		
 
 		fullframe.add(mainframe);
 		fullframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
