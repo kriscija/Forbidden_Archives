@@ -867,7 +867,7 @@ System.out.println("reached1");
 		upthe.addActionListener(uptheb); 
 		delev.addActionListener(delevb);
 		addev.addActionListener(addevb);
-		upev.addActionListener(upevb); 
+		upev.addActionListener(upevb);
 
 		
 		gbc.fill = GridBagConstraints.HORIZONTAL;
