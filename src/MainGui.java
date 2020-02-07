@@ -715,9 +715,9 @@ System.out.println("reached1");
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String title = the2f.getSelectedText();
-				String summary = the3f.getSelectedText();
-
+				String title = the2f.getText();
+				String summary = the3f.getText();
+				
 				theoryservice.addTheory(title, summary);
 				reinitializeData();
 //				System.out.println("reached");

@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 //Borrowed most of this from the lab
-public class OrgoService {
+public class PersonService {
 
 	private DatabaseConnectionService dbService = null;
 
-	public OrgoService(DatabaseConnectionService dbService) {
+	public PersonService(DatabaseConnectionService dbService) {
 		this.dbService = dbService;
 	}
 
@@ -22,7 +22,7 @@ public class OrgoService {
 		int returnval = -5;
 
 		try {
-			tocall = this.dbService.getConnection().prepareCall("{ ? = call dbo.add_Organization(?,?,?,?) }");
+			tocall = this.dbService.getConnection().prepareCall("{ ? = call dbo.add_Person(?,?,?,?) }");
 
 			tocall.registerOutParameter(1, Types.INTEGER);
 			tocall.setString(2, desc);
@@ -67,7 +67,7 @@ public class OrgoService {
 			return false;
 		}
 	}
-	public boolean delOrgo(int id) {
+	public boolean delPerson(int id) {
 		CallableStatement tocall = null;
 		int returnval = -5;
 

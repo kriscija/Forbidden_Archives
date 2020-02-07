@@ -32,6 +32,7 @@ public class TheoryService {
 			returnval = tocall.getInt(1);
 		} catch (SQLException e) {
 			// TOO Auto-generated catch block
+			System.out.println("Add Theory Failed");
 			e.printStackTrace();
 		}
 
