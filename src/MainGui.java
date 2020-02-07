@@ -132,10 +132,10 @@ public class MainGui {
 		ArrayList<String[]> transform2 = new ArrayList<String[]>();
 		for (int k1 = 0; k1 < naam.size(); k1++) {
 			String[] toadd1 = new String[4];
-			toadd1[0] = fnam.get(k1);
-			toadd1[1] = lnam.get(k1);
-			toadd1[2] = descc.get(k1);
-			toadd1[3] = naam.get(k1);
+			toadd1[0] = naam.get(k1);
+			toadd1[1] = descc.get(k1);
+			toadd1[2] = fnam.get(k1);
+			toadd1[3] = lnam.get(k1);
 		
 
 			transform2.add(toadd1);
@@ -397,7 +397,7 @@ public class MainGui {
 		
 		//Main contributor table
 		
-		JPanel modifier = new JPanel(new GridBagLayout());
+//		JPanel modifier = new JPanel(new GridBagLayout());
 
 //		String[] displaysorgoedit = new String[] { "ID","Organization name", "Description", "Attributes", "Date of Establishment" };
 		JLabel orgo0 = new JLabel("Organization");
@@ -715,11 +715,10 @@ System.out.println("reached1");
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String desc = orgo3f.getText();
-				String att = orgo4f.getText();
-				String date = orgo5f.getText();
-				String name = orgo2f.getText();
-				orgoservice.addOrgo(desc, att, date, name);
+				String title = the2f.getSelectedText();
+				String summary = the3f.getSelectedText();
+
+				theoryservice.addTheory(title, summary);
 				reinitializeData();
 //				System.out.println("reached");
 //				System.out.println(todisp.getModel().getValueAt(0, 0));
@@ -742,8 +741,8 @@ System.out.println("reached1");
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int id = Integer.parseInt(orgo1f.getText());
-				orgoservice.delOrgo(id);
+				int id = Integer.parseInt(the1f.getText());
+				theoryservice.delTheory(id);
 				reinitializeData();
 //				todisp.revalidate();
 //				todisp.repaint();
@@ -758,12 +757,10 @@ System.out.println("reached1");
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int id = Integer.parseInt(orgo1f.getText());
-				String desc = orgo3f.getText();
-				String att = orgo4f.getText();
-				String date = orgo5f.getText();
-				String name = orgo2f.getText();
-				orgoservice.upOrgo(id, desc, att, date, name);
+				int id = Integer.parseInt(the1f.getText());
+				String title = the2f.getSelectedText();
+				String summary = the3f.getSelectedText();
+				theoryservice.upTheory(id, title, summary);
 				reinitializeData();
 //				todisp.revalidate();
 				mainframe.revalidate();
@@ -777,6 +774,15 @@ System.out.println("reached1");
 		JButton delorgo = new JButton("Delete Organization");
 		JButton uporgo = new JButton("Update Organization");
 		JButton addorgo = new JButton("Add Organization");
+		JButton delthe = new JButton("Delete Theory");
+		JButton upthe = new JButton("Update Theory");
+		JButton addthe = new JButton("Add Theory");
+		JButton delper = new JButton("Delete Person");
+		JButton upper = new JButton("Update Person");
+		JButton addper = new JButton("Add Person");
+		JButton delev = new JButton("Delete Event");
+		JButton upev = new JButton("Update Event");
+		JButton addev = new JButton("Add Event");
 		
 		
 		
@@ -786,19 +792,59 @@ System.out.println("reached1");
 		delorgo.addActionListener(delorgob);
 		uporgo.addActionListener(uporgob);
 		addorgo.addActionListener(addorgob);
+		delthe.addActionListener(deltheb);
+		addthe.addActionListener(addtheb);
+		upthe.addActionListener(uptheb); 
 
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 0;
-		gbc.gridy = 3;
-//		editorgo.add(delorgo, gbc);
+		gbc.gridy = 9;
+		modifypanel.add(delorgo, gbc);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 1;
-		gbc.gridy = 3;
-//		editorgo.add(uporgo, gbc);
+		gbc.gridy = 9;
+		modifypanel.add(uporgo, gbc);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 2;
-		gbc.gridy = 3;
-//		editorgo.add(addorgo, gbc);
+		gbc.gridy = 9;
+		modifypanel.add(addorgo, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 0;
+		gbc.gridy = 10;
+		modifypanel.add(delthe, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 1;
+		gbc.gridy = 10;
+		modifypanel.add(upthe, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 2;
+		gbc.gridy = 10;
+		modifypanel.add(addthe, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 0;
+		gbc.gridy = 11;
+		modifypanel.add(delper, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 1;
+		gbc.gridy = 11;
+		modifypanel.add(upper, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 2;
+		gbc.gridy = 11;
+		modifypanel.add(addper, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 0;
+		gbc.gridy = 12;
+		modifypanel.add(delev, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 1;
+		gbc.gridy = 12;
+		modifypanel.add(upev, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 2;
+		gbc.gridy = 12;
+		modifypanel.add(addev, gbc);
+		
 		
 		
 		
