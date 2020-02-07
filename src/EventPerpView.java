@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 //Borrowed most of this from the lab
-public class OrganizationVictimsView{
+public class EventPerpView{
 
 	private DatabaseConnectionService dbService = null;
 
-	public OrganizationVictimsView(DatabaseConnectionService dbService) {
+	public EventPerpView(DatabaseConnectionService dbService) {
 		this.dbService = dbService;
 	}
 
@@ -162,18 +162,18 @@ public class OrganizationVictimsView{
 //		}
 //	}
 
-	public ArrayList<String> getorgID() {
+	public ArrayList<String> getEventID() {
 
 		ArrayList<String> thename = new ArrayList<String>();
 
 		Statement stmt = null;
-		String query = "select ID from ForbiddenArchives.dbo.OrganizationVictims";
+		String query = "select EventID from ForbiddenArchives.dbo.EventPerpetratorsView";
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				String nam = rs.getString("ID");
+				String nam = rs.getString("EventID");
 				thename.add(nam);
 
 			}
@@ -194,50 +194,18 @@ public class OrganizationVictimsView{
 
 		return thename;
 	}
-	public ArrayList<String> getName() {
+	public ArrayList<String> getPersonID() {
 
 		ArrayList<String> thename = new ArrayList<String>();
 
 		Statement stmt = null;
-		String query = "select [name] from ForbiddenArchives.dbo.OrganizationVictims";
+		String query = "select PersonID from ForbiddenArchives.dbo.EventPerpetratorsView";
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				String nam = rs.getString("[name]");
-				thename.add(nam);
-
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-
-					e.printStackTrace();
-				}
-			}
-
-		}
-
-		return thename;
-	}
-	public ArrayList<String> getVicID() {
-
-		ArrayList<String> thename = new ArrayList<String>();
-
-		Statement stmt = null;
-		String query = "select VictimID from ForbiddenArchives.dbo.OrganizationVictims";
-		try {
-			Connection con = this.dbService.getConnection();
-			stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			while (rs.next()) {
-				String nam = rs.getString("VictimID");
+				String nam = rs.getString("PersonID");
 				thename.add(nam);
 
 			}
@@ -263,7 +231,7 @@ public class OrganizationVictimsView{
 		ArrayList<String> thename = new ArrayList<String>();
 
 		Statement stmt = null;
-		String query = "select Fname from ForbiddenArchives.dbo.OrganizationVictims";
+		String query = "select Fname from ForbiddenArchives.dbo.EventPerpetratorsView";
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();
@@ -295,13 +263,77 @@ public class OrganizationVictimsView{
 		ArrayList<String> thename = new ArrayList<String>();
 
 		Statement stmt = null;
-		String query = "select Lname from ForbiddenArchives.dbo.OrganizationVictims";
+		String query = "select Lname from ForbiddenArchives.dbo.EventPerpetratorsView";
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
 				String nam = rs.getString("Lname");
+				thename.add(nam);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+
+					e.printStackTrace();
+				}
+			}
+
+		}
+
+		return thename;
+	}
+	public ArrayList<String> getDesc() {
+
+		ArrayList<String> thename = new ArrayList<String>();
+
+		Statement stmt = null;
+		String query = "select Description from ForbiddenArchives.dbo.EventPerpetratorsView";
+		try {
+			Connection con = this.dbService.getConnection();
+			stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				String nam = rs.getString("Description");
+				thename.add(nam);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+
+					e.printStackTrace();
+				}
+			}
+
+		}
+
+		return thename;
+	}
+	public ArrayList<String> getName() {
+
+		ArrayList<String> thename = new ArrayList<String>();
+
+		Statement stmt = null;
+		String query = "select [name] from ForbiddenArchives.dbo.EventPerpetratorsView";
+		try {
+			Connection con = this.dbService.getConnection();
+			stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				String nam = rs.getString("[name]");
 				thename.add(nam);
 
 			}
