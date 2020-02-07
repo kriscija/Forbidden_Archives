@@ -75,44 +75,44 @@ public class MainGui {
 		todisporgo.setModel(refresh);
 		
 		
+		//implement once that view is fixed
 		
-		
-		ArrayList<String> thnam = this.mainviewservice.getTheoryName();
-		ArrayList<String> ths = this.mainviewservice.getTheorySummary();
-		ArrayList<String> covorg = this.mainviewservice.getCoveredOrganization();
-		ArrayList<String> orgdes = this.mainviewservice.getOrgDesc();
-		ArrayList<String> conspev = this.mainviewservice.getConspEvent();
-		ArrayList<String> evdesc = this.mainviewservice.getEventDescription();
-		ArrayList<String> evtype = this.mainviewservice.getEventType();
-		ArrayList<String> evdate = this.mainviewservice.getEventDate();
-
-
-		ArrayList<String[]> transform1 = new ArrayList<String[]>();
-		for (int k1 = 0; k1 < orgnam.size(); k1++) {
-			String[] toadd1 = new String[8];
-			toadd1[0] = thnam.get(k1);
-			toadd1[1] = ths.get(k1);
-			toadd1[2] = covorg.get(k1);
-			toadd1[3] = orgdes.get(k1);
-			toadd1[4] = conspev.get(k1);
-			toadd1[5] = evdesc.get(k1);
-			toadd1[6] = evtype.get(k1);
-			toadd1[7] = evdate.get(k1);
-
-			transform1.add(toadd1);
-
-		}
-		String[][] mandata1 = new String[transform1.size()][8];
-		this.maindata = new String[transform1.size()][8];
-		for (int i = 0; i < transform1.size(); i++) {
-
-			mandata1[i] = transform1.get(i);
-
-		}
-		this.maindata = mandata1;
-		DefaultTableModel refresh1 = new DefaultTableModel(this.maindata, this.maindisplays);
-//System.out.println(this.orgodata[0][0]);
-		todispmain.setModel(refresh1);
+//		ArrayList<String> thnam = this.mainviewservice.getTheoryName();
+//		ArrayList<String> ths = this.mainviewservice.getTheorySummary();
+//		ArrayList<String> covorg = this.mainviewservice.getCoveredOrganization();
+//		ArrayList<String> orgdes = this.mainviewservice.getOrgDesc();
+//		ArrayList<String> conspev = this.mainviewservice.getConspEvent();
+//		ArrayList<String> evdesc = this.mainviewservice.getEventDescription();
+//		ArrayList<String> evtype = this.mainviewservice.getEventType();
+//		ArrayList<String> evdate = this.mainviewservice.getEventDate();
+//
+//
+//		ArrayList<String[]> transform1 = new ArrayList<String[]>();
+//		for (int k1 = 0; k1 < orgnam.size(); k1++) {
+//			String[] toadd1 = new String[8];
+//			toadd1[0] = thnam.get(k1);
+//			toadd1[1] = ths.get(k1);
+//			toadd1[2] = covorg.get(k1);
+//			toadd1[3] = orgdes.get(k1);
+//			toadd1[4] = conspev.get(k1);
+//			toadd1[5] = evdesc.get(k1);
+//			toadd1[6] = evtype.get(k1);
+//			toadd1[7] = evdate.get(k1);
+//
+//			transform1.add(toadd1);
+//
+//		}
+//		String[][] mandata1 = new String[transform1.size()][8];
+//		this.maindata = new String[transform1.size()][8];
+//		for (int i = 0; i < transform1.size(); i++) {
+//
+//			mandata1[i] = transform1.get(i);
+//
+//		}
+//		this.maindata = mandata1;
+//		DefaultTableModel refresh1 = new DefaultTableModel(this.maindata, this.maindisplays);
+////System.out.println(this.orgodata[0][0]);
+//		todispmain.setModel(refresh1);
 		
 		
 		
@@ -183,13 +183,14 @@ public class MainGui {
 		
 
 			transform3.add(toadd1);
+			System.out.println(toadd1[0]);
 
 		}
 		String[][] mandata3 = new String[transform3.size()][3];
 		this.orvicdata = new String[transform3.size()][3];
 		for (int i = 0; i < transform3.size(); i++) {
 
-			mandata2[i] = transform3.get(i);
+			mandata3[i] = transform3.get(i);
 
 		}
 		this.orvicdata = mandata3;
@@ -708,11 +709,80 @@ System.out.println("reached1");
 
 			}
 		};
+		
+		
+		ActionListener addtheb = new ActionListener() {
 
-		JButton delorgo = new JButton("Delete");
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String desc = orgo3f.getText();
+				String att = orgo4f.getText();
+				String date = orgo5f.getText();
+				String name = orgo2f.getText();
+				orgoservice.addOrgo(desc, att, date, name);
+				reinitializeData();
+//				System.out.println("reached");
+//				System.out.println(todisp.getModel().getValueAt(0, 0));
+//				DefaultTableModel torefresh = (DefaultTableModel)todisp.getModel();
+//				torefresh.fireTableDataChanged();
+//				todisp.revalidate();
+//				todisp.repaint();
+				mainframe.revalidate();
+				mainframe.repaint();
+				fullframe.revalidate();
+				fullframe.repaint();
+//				todisp.repaint();
 
-		JButton uporgo = new JButton("Update");
-		JButton addorgo = new JButton("Add");
+			}
+
+		
+		};
+
+		ActionListener deltheb = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int id = Integer.parseInt(orgo1f.getText());
+				orgoservice.delOrgo(id);
+				reinitializeData();
+//				todisp.revalidate();
+//				todisp.repaint();
+				mainframe.revalidate();
+				mainframe.repaint();
+				fullframe.revalidate();
+				fullframe.repaint();
+
+			}
+		};
+		ActionListener uptheb = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int id = Integer.parseInt(orgo1f.getText());
+				String desc = orgo3f.getText();
+				String att = orgo4f.getText();
+				String date = orgo5f.getText();
+				String name = orgo2f.getText();
+				orgoservice.upOrgo(id, desc, att, date, name);
+				reinitializeData();
+//				todisp.revalidate();
+				mainframe.revalidate();
+				mainframe.repaint();
+				fullframe.revalidate();
+				fullframe.repaint();
+
+			}
+		};
+
+		JButton delorgo = new JButton("Delete Organization");
+		JButton uporgo = new JButton("Update Organization");
+		JButton addorgo = new JButton("Add Organization");
+		
+		
+		
+		
+		
+		
 		delorgo.addActionListener(delorgob);
 		uporgo.addActionListener(uporgob);
 		addorgo.addActionListener(addorgob);
@@ -729,6 +799,22 @@ System.out.println("reached1");
 		gbc.gridx = 2;
 		gbc.gridy = 3;
 //		editorgo.add(addorgo, gbc);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		layout.addLayoutComponent(mainmenupanel, "mainmenupanel");
 		mainframe.add(mainmenupanel);

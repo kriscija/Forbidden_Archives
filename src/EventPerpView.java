@@ -333,7 +333,7 @@ public class EventPerpView{
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				String nam = rs.getString("[name]");
+				String nam = rs.getString("name");
 				thename.add(nam);
 
 			}
