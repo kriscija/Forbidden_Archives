@@ -22,7 +22,7 @@ public class MainGui {
 	public OrganService orgoservice = new OrganService(con);
 	public UserService userservice = new UserService(con);
 	public TheoryService theoryservice = new TheoryService(con);
-//	public EventService eventservice = new EventService(con);
+	public EventService eventservice = new EventService(con);
 //	public PersonService personservice = new PersonService(con);
 	public MainViewService mainviewservice = new MainViewService(con);
 	public EventPerpView eventperpview = new EventPerpView(con);
@@ -771,6 +771,76 @@ System.out.println("reached1");
 			}
 		};
 
+		ActionListener addevb = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String type = ev2f.getText();
+				String doo = ev3f.getText();
+				String desc = ev4f.getText();
+				String perpid = ev5f.getText();
+				String name = ev6f.getText();
+				
+				eventservice.addEvent(type, doo, desc, perpid, name);
+				reinitializeData();
+//				System.out.println("reached");
+//				System.out.println(todisp.getModel().getValueAt(0, 0));
+//				DefaultTableModel torefresh = (DefaultTableModel)todisp.getModel();
+//				torefresh.fireTableDataChanged();
+//				todisp.revalidate();
+//				todisp.repaint();
+				mainframe.revalidate();
+				mainframe.repaint();
+				fullframe.revalidate();
+				fullframe.repaint();
+//				todisp.repaint();
+
+			}
+
+		
+		};
+
+		ActionListener delevb = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int id = Integer.parseInt(ev1f.getText());
+				eventservice.delEvent(id);
+				reinitializeData();
+//				todisp.revalidate();
+//				todisp.repaint();
+				mainframe.revalidate();
+				mainframe.repaint();
+				fullframe.revalidate();
+				fullframe.repaint();
+
+			}
+		};
+		ActionListener upevb = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int id = Integer.parseInt(the1f.getText());
+				String type = ev2f.getText();
+				String doo = ev3f.getText();
+				String desc = ev4f.getText();
+				String perpid = ev5f.getText();
+				String name = ev6f.getText();
+				String title = the2f.getSelectedText();
+				String summary = the3f.getSelectedText();
+				eventservice.upEvent(id, type, doo, desc, perpid, name);
+				reinitializeData();
+//				todisp.revalidate();
+				mainframe.revalidate();
+				mainframe.repaint();
+				fullframe.revalidate();
+				fullframe.repaint();
+
+			}
+		};
+		
+		
+		
 		JButton delorgo = new JButton("Delete Organization");
 		JButton uporgo = new JButton("Update Organization");
 		JButton addorgo = new JButton("Add Organization");
@@ -795,7 +865,11 @@ System.out.println("reached1");
 		delthe.addActionListener(deltheb);
 		addthe.addActionListener(addtheb);
 		upthe.addActionListener(uptheb); 
+		delev.addActionListener(delevb);
+		addev.addActionListener(addevb);
+		upev.addActionListener(upevb); 
 
+		
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 0;
 		gbc.gridy = 9;
@@ -844,7 +918,6 @@ System.out.println("reached1");
 		gbc.gridx = 2;
 		gbc.gridy = 12;
 		modifypanel.add(addev, gbc);
-		
 		
 		
 		
