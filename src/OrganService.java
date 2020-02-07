@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 //Borrowed most of this from the lab
-public class OrgoService {
+public class OrganService{
 
 	private DatabaseConnectionService dbService = null;
 
-	public OrgoService(DatabaseConnectionService dbService) {
+	public OrganService(DatabaseConnectionService dbService) {
 		this.dbService = dbService;
 	}
 

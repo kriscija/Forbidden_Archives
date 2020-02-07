@@ -19,15 +19,27 @@ public class MainGui {
 	private JFrame fullframe = new JFrame("Forbidden Archives");
 	private DatabaseConnectionService con = new DatabaseConnectionService("golem.csse.rose-hulman.edu",
 			"ForbiddenArchives");
-	public OrgoService orgoservice = new OrgoService(con);
+	public OrganService orgoservice = new OrganService(con);
 	public UserService userservice = new UserService(con);
 	public TheoryService theoryservice = new TheoryService(con);
-	public EventService eventservice = new EventService(con);
-	public PersonService personservice = new PersonService(con);
-	
+//	public EventService eventservice = new EventService(con);
+//	public PersonService personservice = new PersonService(con);
+//	public MainViewService mainviewservice = new MainViewService(con);
+//	public EventPerpView eventperpview = new EventPerpView(con);
+//	public OrganizationVictimsView orgovicview = new OrganizationVictimsView(con);
+//	
 	private String[] orgodisplays = { "Organization name", "Description", "Attributes", "Date of Establishment" };
 	private String[][] orgodata;
-	private JTable todisp = new JTable(orgodata, orgodisplays);
+	private JTable todisporgo = new JTable(orgodata, orgodisplays);
+	private String[] maindisplays = { "Theory Name", "Theory Summary", "Covered Organization", "Organization Description","Conspiracy Event", "Event Description", "Event Type", "Event Date" };
+	private String[][] maindata;
+	private JTable todispmain = new JTable(maindata, maindisplays);
+	private String[] eperpdisplays = { "Event name", "Description", "First Name", "Last Name" };
+	private String[][] eperpdata;
+	private JTable todispeperp = new JTable(eperpdata, eperpdisplays);
+	private String[] orvicdisplays = { "Organization name", "victim firstname", "victim lastname" };
+	private String[][] orvicdata;
+	private JTable todisporvic = new JTable(orvicdata, orvicdisplays);
 	final CardLayout layout = new CardLayout();
 	final JPanel mainframe = new JPanel(layout);
 
@@ -59,7 +71,7 @@ public class MainGui {
 		this.orgodata = mandata;
 		DefaultTableModel refresh = new DefaultTableModel(this.orgodata, this.orgodisplays);
 //System.out.println(this.orgodata[0][0]);
-		todisp.setModel(refresh);
+		todisporgo.setModel(refresh);
 
 	}
 
@@ -67,168 +79,247 @@ public class MainGui {
 		con.connect("ForbiddenArchives20", "KillPoliticians69");
 
 		// main Jpanel constrution
+		GridBagLayout viewmenu = new GridBagLayout();
+		GridBagLayout mainview = new GridBagLayout();
 		GridBagLayout orgo = new GridBagLayout();
-		JPanel orgomain = new JPanel(orgo);
+		GridBagLayout mainmenu = new GridBagLayout();
+		GridBagLayout eventperp = new GridBagLayout();
+		GridBagLayout orgovicview = new GridBagLayout();
+		GridBagLayout modifymenu = new GridBagLayout();
+		JPanel viewmain = new JPanel(mainview);
+		JPanel viewer = new JPanel(viewmenu);
+		JPanel orgoviwer = new JPanel(orgo);
+		JPanel mainmenupanel = new JPanel(mainmenu);
+		JPanel eventperppanel = new JPanel(eventperp);
+		JPanel orgovicpanel = new JPanel(orgovicview);
+		JPanel modifypanel = new JPanel(modifymenu);
+		mainframe.add(viewmain);
+		layout.addLayoutComponent(viewmain, "viewmain");
+		mainframe.add(viewer);
+		layout.addLayoutComponent(viewer, "viewer");
+		mainframe.add(orgoviwer);
+		layout.addLayoutComponent(orgoviwer, "orgoviwer");
+		mainframe.add(mainmenupanel);
+		layout.addLayoutComponent(mainmenupanel, "mainmenupanel");
+		mainframe.add(eventperppanel);
+		layout.addLayoutComponent(eventperppanel, "eventperppanel");
+		mainframe.add(orgovicpanel);
+		layout.addLayoutComponent(orgovicpanel, "orgovicpanel");
+		mainframe.add(modifypanel);
+		layout.addLayoutComponent(modifypanel, "modifypanel");
 		GridBagConstraints gbc = new GridBagConstraints();
-		JButton switcher = new JButton("Modify Organization");
+		
+		
+		// main menu stuff
+		
+		JButton modifyviewbutton = new JButton("Modify menu");
 		ActionListener contributer = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				layout.show(mainframe, "editorgo");
+				layout.show(mainframe, "modifypanel");
 			}
 		};
 
-		switcher.addActionListener(contributer);
+		modifyviewbutton.addActionListener(contributer);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridx = 0;
-		gbc.gridy = 0;
+		gbc.gridx = 3;
+		gbc.gridy = 3;
 
-		orgomain.add(switcher, gbc);
+		mainmenupanel.add(modifyviewbutton, gbc);
 
 		reinitializeData();
+		JButton viewbutton = new JButton("View Menu");
+		ActionListener mainviewer = new ActionListener() {
 
-		Object[][] maindata = new Object[][] { { "A1", "A2", "A3", "A4" }, { "B1", "B2", "B3", "B4" } };
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				layout.show(mainframe, "viewer");
+			}
+		};
+		
 
-		JScrollPane todisporgo = new JScrollPane(todisp);
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridx = 1;
-		gbc.gridy = 0;
-		orgomain.add(todisporgo, gbc);
+//		JScrollPane todisporgo = new JScrollPane(todisp);
+//		gbc.fill = GridBagConstraints.HORIZONTAL;
+//		gbc.gridx = 4;
+//		gbc.gridy = 3;
+//		orgomain.add(todisporgo, gbc);
+		//make back button
+		JButton backButton = new JButton("Back");
 
-		mainframe.add(orgomain);
-		layout.addLayoutComponent(orgomain, "orgoview");
+		ActionListener backbutton = new ActionListener() {
 
-		// Contribute organization panel construction
-		JPanel editorgo = new JPanel(new GridBagLayout());
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				layout.show(mainframe, "MainMenu");
+			}
+		};
+		backButton.addActionListener(backbutton);
+
+
+//		mainframe.add(orgomain);
+//		layout.addLayoutComponent(orgomain, "orgoview");
+
+		// Contribute organizatodifyion panel construction
+		
+		//Main contributor table
+		
+		JPanel modifier = new JPanel(new GridBagLayout());
 
 //		String[] displaysorgoedit = new String[] { "ID","Organization name", "Description", "Attributes", "Date of Establishment" };
+		JLabel orgo0 = new JLabel("Organization");
 		JLabel orgo1 = new JLabel("ID");
 		JLabel orgo2 = new JLabel("Organization Name");
 		JLabel orgo3 = new JLabel("Description");
 		JLabel orgo4 = new JLabel("Attributes");
 		JLabel orgo5 = new JLabel("Date Of Establishment");
+		JLabel the0 = new JLabel("Theory");
+		JLabel the1 = new JLabel("ID");
+		JLabel the2 = new JLabel("Theory Title");
+		JLabel the3 = new JLabel("Theory Summary");
+		JLabel ev0 = new JLabel("Event");
+		JLabel ev1 = new JLabel("ID");
+		JLabel ev2 = new JLabel("Event Type");
+		JLabel ev3 = new JLabel("Date of Occurence");
+		JLabel ev4 = new JLabel("Description");
+		JLabel ev5 = new JLabel("PerpID");
+		JLabel ev6 = new JLabel("Name");
+		JLabel per0 = new JLabel("Person");
+		JLabel per1 = new JLabel("ID");
+		JLabel per2 = new JLabel("Date Of Birth");
+		JLabel per3 = new JLabel("First Name");
+		JLabel per4 = new JLabel("Last Name");
+		
+
+
+		
 		JTextField orgo1f = new JTextField();
 		JTextField orgo2f = new JTextField();
 		JTextField orgo3f = new JTextField();
 		JTextField orgo4f = new JTextField();
 		JTextField orgo5f = new JTextField();
+		JTextField the1f = new JTextField();
+		JTextField the2f = new JTextField();
+		JTextField the3f = new JTextField();
+		JTextField ev1f = new JTextField();
+		JTextField ev2f = new JTextField();
+		JTextField ev3f = new JTextField();
+		JTextField ev4f = new JTextField();
+		JTextField ev5f = new JTextField();
+		JTextField ev6f = new JTextField();
+		JTextField per1f = new JTextField();
+		JTextField per2f = new JTextField();
+		JTextField per3f = new JTextField();
+		JTextField per4f = new JTextField();
+		
+		
+		
+		
+		
+		
 
-		JButton organizationviewswitcher = new JButton("view Organizations");
 
-		ActionListener orgoviewjumper = new ActionListener() {
+		
+	
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				layout.show(mainframe, "orgoview");
-			}
-		};
 
-		organizationviewswitcher.addActionListener(orgoviewjumper);
-
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridx = 0;
-		gbc.gridy = 2;
-		editorgo.add(organizationviewswitcher, gbc);
-
-		JButton evictimviewswitcher = new JButton("view eventvictims");
-
-		ActionListener evictimjumper = new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				layout.show(mainframe, "evictimview");
-			}
-		};
-
-		evictimviewswitcher.addActionListener(evictimjumper);
-
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridx = 1;
-		gbc.gridy = 2;
-		editorgo.add(evictimviewswitcher, gbc);
-
-		JButton theoryviewswitcher = new JButton("view Theories");
-
-		ActionListener theoryjumper = new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				layout.show(mainframe, "theoryview");
-			}
-		};
-
-		organizationviewswitcher.addActionListener(theoryjumper);
-
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridx = 2;
-		gbc.gridy = 2;
-		editorgo.add(theoryviewswitcher, gbc);
-
-		JButton eventswitcher = new JButton("view Events");
-
-		ActionListener eventjumper = new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				layout.show(mainframe, "eventview");
-			}
-		};
-
-		eventswitcher.addActionListener(eventjumper);
-
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridx = 3;
-		gbc.gridy = 2;
-		editorgo.add(eventswitcher, gbc);
-
-		mainframe.add(editorgo);
-		layout.addLayoutComponent(editorgo, "editorgo");
+//		mainframe.add(editorgo);
+//		layout.addLayoutComponent(editorgo, "editorgo");
 
 		// javagraphics bullshit
 
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		editorgo.add(orgo1, gbc);
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridx = 1;
-		gbc.gridy = 0;
-		editorgo.add(orgo2, gbc);
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridx = 2;
-		gbc.gridy = 0;
-		editorgo.add(orgo3, gbc);
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridx = 3;
-		gbc.gridy = 0;
-		editorgo.add(orgo4, gbc);
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		gbc.gridx = 4;
-		gbc.gridy = 0;
-		editorgo.add(orgo5, gbc);
-
+		modifypanel.add(backButton, gbc);
+		
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 0;
 		gbc.gridy = 1;
-		editorgo.add(orgo1f, gbc);
+		modifypanel.add(orgo0, gbc);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 1;
 		gbc.gridy = 1;
-		editorgo.add(orgo2f, gbc);
+		modifypanel.add(orgo1, gbc);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 2;
 		gbc.gridy = 1;
-		editorgo.add(orgo3f, gbc);
+		modifypanel.add(orgo2, gbc);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 3;
 		gbc.gridy = 1;
-		editorgo.add(orgo4f, gbc);
+		modifypanel.add(orgo3, gbc);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 4;
 		gbc.gridy = 1;
-		editorgo.add(orgo5f, gbc);
+		modifypanel.add(orgo4, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 5;
+		gbc.gridy = 1;
+		modifypanel.add(orgo5, gbc);
+		
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 1;
+		gbc.gridy = 2;
+		modifypanel.add(orgo1f, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 2;
+		gbc.gridy = 2;
+		modifypanel.add(orgo2f, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 3;
+		gbc.gridy = 2;
+		modifypanel.add(orgo3f, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 4;
+		gbc.gridy = 2;
+		modifypanel.add(orgo4f, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 5;
+		gbc.gridy = 2;
+		modifypanel.add(orgo5f, gbc);
+		
+		
+		
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 0;
+		gbc.gridy = 3;
+		modifypanel.add(the0, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 1;
+		gbc.gridy = 3;
+		modifypanel.add(the1, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 2;
+		gbc.gridy = 3;
+		modifypanel.add(the2, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 3;
+		gbc.gridy = 3;
+		modifypanel.add(the3, gbc);
+		
+		
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 1;
+		gbc.gridy = 4;
+		modifypanel.add(the1f, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 2;
+		gbc.gridy = 4;
+		modifypanel.add(the2f, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 3;
+		gbc.gridy = 4;
+		modifypanel.add(the3f, gbc);
 
+
+
+
+
+
+		
+		
+		
 		ActionListener addorgob = new ActionListener() {
 
 			@Override
@@ -253,51 +344,7 @@ public class MainGui {
 
 			}
 
-			private void reinitializeDatatest() {
-//				ArrayList<String> orgnam = this.orgoservice.getOrganizationName();
-//				ArrayList<String> orgdesc = this.orgoservice.getOrganizationDesc();
-//				ArrayList<String> orgdoe = this.orgoservice.getOrganizationDoe();
-//				ArrayList<String> orgatt = this.orgoservice.getOrganizationatt();
-
-				ArrayList<String> orgnam = new ArrayList<String>();
-				orgnam.add("alt");
-				orgnam.add("l");
-				ArrayList<String> orgdesc = new ArrayList<String>();
-				orgdesc.add("er");
-				orgdesc.add("m");
-
-				ArrayList<String> orgdoe = new ArrayList<String>();
-				orgdoe.add("nat");
-				orgdoe.add("a");
-
-				ArrayList<String> orgatt = new ArrayList<String>();
-				orgatt.add("test");
-				orgatt.add("o");
-
-				ArrayList<String[]> transform = new ArrayList<String[]>();
-				for (int k = 0; k < orgnam.size(); k++) {
-					String[] toadd = new String[4];
-					toadd[0] = orgnam.get(k);
-					toadd[1] = orgdesc.get(k);
-					toadd[2] = orgdoe.get(k);
-					toadd[3] = orgatt.get(k);
-					transform.add(toadd);
-
-				}
-				String[][] mandata = new String[transform.size()][4];
-				orgodata = new String[transform.size()][4];
-				for (int i = 0; i < transform.size(); i++) {
-
-					mandata[i] = transform.get(i);
-
-				}
-				orgodata = mandata;
-
-				DefaultTableModel refresh = new DefaultTableModel(orgodata, orgodisplays);
-//						System.out.println(orgodata[0][0]);
-				todisp.setModel(refresh);
-
-			}
+		
 		};
 
 		ActionListener delorgob = new ActionListener() {
