@@ -162,12 +162,15 @@ public class OrganizationVictimsView{
 //		}
 //	}
 
-	public ArrayList<String> getorgID() {
+	public ArrayList<String> getorgID(boolean s, String orgname) {
 
 		ArrayList<String> thename = new ArrayList<String>();
 
 		Statement stmt = null;
 		String query = "select ID from ForbiddenArchives.dbo.OrganizationVictims";
+		if(s == true) {
+			query = query + " where [name] = '" + orgname + "'";
+		}
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();
@@ -194,12 +197,15 @@ public class OrganizationVictimsView{
 
 		return thename;
 	}
-	public ArrayList<String> getName() {
+	public ArrayList<String> getName(boolean s, String orgname) {
 
 		ArrayList<String> thename = new ArrayList<String>();
 
 		Statement stmt = null;
 		String query = "select [name] from ForbiddenArchives.dbo.OrganizationVictims";
+		if(s == true) {
+			query = query + " where [name] = '" + orgname + "'";
+		}
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();
@@ -226,12 +232,15 @@ public class OrganizationVictimsView{
 
 		return thename;
 	}
-	public ArrayList<String> getVicID() {
+	public ArrayList<String> getVicID(boolean s, String orgname) {
 
 		ArrayList<String> thename = new ArrayList<String>();
 
 		Statement stmt = null;
 		String query = "select VictimID from ForbiddenArchives.dbo.OrganizationVictims";
+		if(s == true) {
+			query = query + " where [name] = '" + orgname + "'";
+		}
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();
@@ -258,12 +267,15 @@ public class OrganizationVictimsView{
 
 		return thename;
 	}
-	public ArrayList<String> getFname() {
+	public ArrayList<String> getFname(boolean s, String orgname) {
 
 		ArrayList<String> thename = new ArrayList<String>();
 
 		Statement stmt = null;
 		String query = "select Fname from ForbiddenArchives.dbo.OrganizationVictims";
+		if(s == true) {
+			query = query + " where [name] = '" + orgname + "'";
+		}
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();
@@ -290,12 +302,15 @@ public class OrganizationVictimsView{
 
 		return thename;
 	}
-	public ArrayList<String> getLname() {
+	public ArrayList<String> getLname(boolean s, String orgname) {
 
 		ArrayList<String> thename = new ArrayList<String>();
 
 		Statement stmt = null;
 		String query = "select Lname from ForbiddenArchives.dbo.OrganizationVictims";
+		if(s == true) {
+			query = query + " where [name] = '" + orgname + "'";
+		}
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();

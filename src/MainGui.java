@@ -118,10 +118,10 @@ public class MainGui {
 		
 		
 
-		ArrayList<String> fnam = this.eventperpview.getFname();
-		ArrayList<String> lnam = this.eventperpview.getLname();
-		ArrayList<String> descc = this.eventperpview.getDesc();
-		ArrayList<String> naam = this.eventperpview.getName();
+		ArrayList<String> fnam = this.eventperpview.getFname(false,null);
+		ArrayList<String> lnam = this.eventperpview.getLname(false,null);
+		ArrayList<String> descc = this.eventperpview.getDesc(false,null);
+		ArrayList<String> naam = this.eventperpview.getName(false,null);
 
 
 
@@ -160,9 +160,9 @@ public class MainGui {
 		
 		
 		
-		ArrayList<String> vietname = this.orgovicview.getName();
-		ArrayList<String> fnamm = this.orgovicview.getFname();
-		ArrayList<String> lnamm = this.orgovicview.getLname();
+		ArrayList<String> vietname = this.orgovicview.getName(false,null);
+		ArrayList<String> fnamm = this.orgovicview.getFname(false,null);
+		ArrayList<String> lnamm = this.orgovicview.getLname(false,null);
 
 		
 		
@@ -277,10 +277,10 @@ public void searchOrg(String date, String date2) {
 		
 		
 
-		ArrayList<String> fnam = this.eventperpview.getFname();
-		ArrayList<String> lnam = this.eventperpview.getLname();
-		ArrayList<String> descc = this.eventperpview.getDesc();
-		ArrayList<String> naam = this.eventperpview.getName();
+		ArrayList<String> fnam = this.eventperpview.getFname(false,null);
+		ArrayList<String> lnam = this.eventperpview.getLname(false,null);
+		ArrayList<String> descc = this.eventperpview.getDesc(false,null);
+		ArrayList<String> naam = this.eventperpview.getName(false,null);
 
 
 
@@ -319,9 +319,9 @@ public void searchOrg(String date, String date2) {
 		
 		
 		
-		ArrayList<String> vietname = this.orgovicview.getName();
-		ArrayList<String> fnamm = this.orgovicview.getFname();
-		ArrayList<String> lnamm = this.orgovicview.getLname();
+		ArrayList<String> vietname = this.orgovicview.getName(false,null);
+		ArrayList<String> fnamm = this.orgovicview.getFname(false,null);
+		ArrayList<String> lnamm = this.orgovicview.getLname(false,null);
 
 		
 		
@@ -361,6 +361,331 @@ public void searchOrg(String date, String date2) {
 		
 
 	}
+public void eventPerpUpdate(String eventname) {
+	
+	ArrayList<String> orgnam = this.orgoservice.getOrganizationName(false,"","");
+	ArrayList<String> orgdesc = this.orgoservice.getOrganizationDesc(false,"","");
+	ArrayList<String> orgdoe = this.orgoservice.getOrganizationDoe(false,"","");
+	ArrayList<String> orgatt = this.orgoservice.getOrganizationatt(false,"","");
+	
+
+	ArrayList<String[]> transform = new ArrayList<String[]>();
+	for (int k = 0; k < orgnam.size(); k++) {
+		String[] toadd = new String[4];
+		toadd[0] = orgnam.get(k);
+		toadd[1] = orgdesc.get(k);
+		toadd[2] = orgatt.get(k);
+		toadd[3] = orgdoe.get(k);
+
+		transform.add(toadd);
+
+	}
+	String[][] mandata = new String[transform.size()][4];
+	this.orgodata = new String[transform.size()][4];
+	for (int i = 0; i < transform.size(); i++) {
+
+		mandata[i] = transform.get(i);
+
+	}
+	this.orgodata = mandata;
+	DefaultTableModel refresh = new DefaultTableModel(this.orgodata, this.orgodisplays);
+//System.out.println(this.orgodata[0][0]);
+	todisporgo.setModel(refresh);
+	
+	
+	//implement once that view is fixed
+	
+//	ArrayList<String> thnam = this.mainviewservice.getTheoryName();
+//	ArrayList<String> ths = this.mainviewservice.getTheorySummary();
+//	ArrayList<String> covorg = this.mainviewservice.getCoveredOrganization();
+//	ArrayList<String> orgdes = this.mainviewservice.getOrgDesc();
+//	ArrayList<String> conspev = this.mainviewservice.getConspEvent();
+//	ArrayList<String> evdesc = this.mainviewservice.getEventDescription();
+//	ArrayList<String> evtype = this.mainviewservice.getEventType();
+//	ArrayList<String> evdate = this.mainviewservice.getEventDate();
+//
+//
+//	ArrayList<String[]> transform1 = new ArrayList<String[]>();
+//	for (int k1 = 0; k1 < orgnam.size(); k1++) {
+//		String[] toadd1 = new String[8];
+//		toadd1[0] = thnam.get(k1);
+//		toadd1[1] = ths.get(k1);
+//		toadd1[2] = covorg.get(k1);
+//		toadd1[3] = orgdes.get(k1);
+//		toadd1[4] = conspev.get(k1);
+//		toadd1[5] = evdesc.get(k1);
+//		toadd1[6] = evtype.get(k1);
+//		toadd1[7] = evdate.get(k1);
+//
+//		transform1.add(toadd1);
+//
+//	}
+//	String[][] mandata1 = new String[transform1.size()][8];
+//	this.maindata = new String[transform1.size()][8];
+//	for (int i = 0; i < transform1.size(); i++) {
+//
+//		mandata1[i] = transform1.get(i);
+//
+//	}
+//	this.maindata = mandata1;
+//	DefaultTableModel refresh1 = new DefaultTableModel(this.maindata, this.maindisplays);
+////System.out.println(this.orgodata[0][0]);
+//	todispmain.setModel(refresh1);
+	
+	
+	
+	
+
+	ArrayList<String> fnam = this.eventperpview.getFname(true, eventname);
+	ArrayList<String> lnam = this.eventperpview.getLname(true, eventname);
+	ArrayList<String> descc = this.eventperpview.getDesc(true, eventname);
+	ArrayList<String> naam = this.eventperpview.getName(true, eventname);
+
+
+
+
+	
+
+
+	ArrayList<String[]> transform2 = new ArrayList<String[]>();
+	for (int k1 = 0; k1 < naam.size(); k1++) {
+		String[] toadd1 = new String[4];
+		toadd1[0] = naam.get(k1);
+		toadd1[1] = descc.get(k1);
+		toadd1[2] = fnam.get(k1);
+		toadd1[3] = lnam.get(k1);
+	
+
+		transform2.add(toadd1);
+
+	}
+	String[][] mandata2 = new String[transform2.size()][4];
+	this.eperpdata = new String[transform2.size()][4];
+	for (int i = 0; i < transform2.size(); i++) {
+
+		mandata2[i] = transform2.get(i);
+
+	}
+	this.eperpdata = mandata2;
+	DefaultTableModel refresh2 = new DefaultTableModel(this.eperpdata, this.eperpdisplays);
+//System.out.println(this.orgodata[0][0]);
+	todispeperp.setModel(refresh2);
+	
+	
+	
+	
+	
+	
+	
+	
+	ArrayList<String> vietname = this.orgovicview.getName(false,null);
+	ArrayList<String> fnamm = this.orgovicview.getFname(false,null);
+	ArrayList<String> lnamm = this.orgovicview.getLname(false,null);
+
+	
+	
+
+
+
+
+	
+
+
+	ArrayList<String[]> transform3 = new ArrayList<String[]>();
+	for (int k1 = 0; k1 < naam.size(); k1++) {
+		String[] toadd1 = new String[3];
+		toadd1[0] = vietname.get(k1);
+		toadd1[1] = fnamm.get(k1);
+		toadd1[2] = lnamm.get(k1);
+		
+	
+
+		transform3.add(toadd1);
+		System.out.println(toadd1[0]);
+
+	}
+	String[][] mandata3 = new String[transform3.size()][3];
+	this.orvicdata = new String[transform3.size()][3];
+	for (int i = 0; i < transform3.size(); i++) {
+
+		mandata3[i] = transform3.get(i);
+
+	}
+	this.orvicdata = mandata3;
+	DefaultTableModel refresh3 = new DefaultTableModel(this.orvicdata, this.orvicdisplays);
+//System.out.println(this.orgodata[0][0]);
+	todisporvic.setModel(refresh3);
+	
+	
+	
+
+}
+public void searchOrgVic(String orgname) {
+	
+	ArrayList<String> orgnam = this.orgoservice.getOrganizationName(false,"","");
+	ArrayList<String> orgdesc = this.orgoservice.getOrganizationDesc(false,"","");
+	ArrayList<String> orgdoe = this.orgoservice.getOrganizationDoe(false,"","");
+	ArrayList<String> orgatt = this.orgoservice.getOrganizationatt(false,"","");
+	
+
+	ArrayList<String[]> transform = new ArrayList<String[]>();
+	for (int k = 0; k < orgnam.size(); k++) {
+		String[] toadd = new String[4];
+		toadd[0] = orgnam.get(k);
+		toadd[1] = orgdesc.get(k);
+		toadd[2] = orgatt.get(k);
+		toadd[3] = orgdoe.get(k);
+
+		transform.add(toadd);
+
+	}
+	String[][] mandata = new String[transform.size()][4];
+	this.orgodata = new String[transform.size()][4];
+	for (int i = 0; i < transform.size(); i++) {
+
+		mandata[i] = transform.get(i);
+
+	}
+	this.orgodata = mandata;
+	DefaultTableModel refresh = new DefaultTableModel(this.orgodata, this.orgodisplays);
+//System.out.println(this.orgodata[0][0]);
+	todisporgo.setModel(refresh);
+	
+	
+	//implement once that view is fixed
+	
+//	ArrayList<String> thnam = this.mainviewservice.getTheoryName();
+//	ArrayList<String> ths = this.mainviewservice.getTheorySummary();
+//	ArrayList<String> covorg = this.mainviewservice.getCoveredOrganization();
+//	ArrayList<String> orgdes = this.mainviewservice.getOrgDesc();
+//	ArrayList<String> conspev = this.mainviewservice.getConspEvent();
+//	ArrayList<String> evdesc = this.mainviewservice.getEventDescription();
+//	ArrayList<String> evtype = this.mainviewservice.getEventType();
+//	ArrayList<String> evdate = this.mainviewservice.getEventDate();
+//
+//
+//	ArrayList<String[]> transform1 = new ArrayList<String[]>();
+//	for (int k1 = 0; k1 < orgnam.size(); k1++) {
+//		String[] toadd1 = new String[8];
+//		toadd1[0] = thnam.get(k1);
+//		toadd1[1] = ths.get(k1);
+//		toadd1[2] = covorg.get(k1);
+//		toadd1[3] = orgdes.get(k1);
+//		toadd1[4] = conspev.get(k1);
+//		toadd1[5] = evdesc.get(k1);
+//		toadd1[6] = evtype.get(k1);
+//		toadd1[7] = evdate.get(k1);
+//
+//		transform1.add(toadd1);
+//
+//	}
+//	String[][] mandata1 = new String[transform1.size()][8];
+//	this.maindata = new String[transform1.size()][8];
+//	for (int i = 0; i < transform1.size(); i++) {
+//
+//		mandata1[i] = transform1.get(i);
+//
+//	}
+//	this.maindata = mandata1;
+//	DefaultTableModel refresh1 = new DefaultTableModel(this.maindata, this.maindisplays);
+////System.out.println(this.orgodata[0][0]);
+//	todispmain.setModel(refresh1);
+	
+	
+	
+	
+
+	ArrayList<String> fnam = this.eventperpview.getFname(false,null);
+	ArrayList<String> lnam = this.eventperpview.getLname(false,null);
+	ArrayList<String> descc = this.eventperpview.getDesc(false,null);
+	ArrayList<String> naam = this.eventperpview.getName(false,null);
+
+
+
+
+	
+
+
+	ArrayList<String[]> transform2 = new ArrayList<String[]>();
+	for (int k1 = 0; k1 < naam.size(); k1++) {
+		String[] toadd1 = new String[4];
+		toadd1[0] = naam.get(k1);
+		toadd1[1] = descc.get(k1);
+		toadd1[2] = fnam.get(k1);
+		toadd1[3] = lnam.get(k1);
+	
+
+		transform2.add(toadd1);
+
+	}
+	String[][] mandata2 = new String[transform2.size()][4];
+	this.eperpdata = new String[transform2.size()][4];
+	for (int i = 0; i < transform2.size(); i++) {
+
+		mandata2[i] = transform2.get(i);
+
+	}
+	this.eperpdata = mandata2;
+	DefaultTableModel refresh2 = new DefaultTableModel(this.eperpdata, this.eperpdisplays);
+//System.out.println(this.orgodata[0][0]);
+	todispeperp.setModel(refresh2);
+	
+	
+	
+	
+	
+	
+	
+	
+	ArrayList<String> vietname = this.orgovicview.getName(true,orgname);
+	ArrayList<String> fnamm = this.orgovicview.getFname(true,orgname);
+	ArrayList<String> lnamm = this.orgovicview.getLname(true,orgname);
+
+	
+	
+
+if(vietname.size() == 0) {
+	this.orvicdata = new String[0][0];
+	DefaultTableModel refresh3 = new DefaultTableModel(this.orvicdata, this.orvicdisplays);
+//System.out.println(this.orgodata[0][0]);
+	todisporvic.setModel(refresh3);
+	return;
+	
+}
+
+
+	
+
+
+	ArrayList<String[]> transform3 = new ArrayList<String[]>();
+	for (int k1 = 0; k1 < naam.size(); k1++) {
+		String[] toadd1 = new String[3];
+		toadd1[0] = vietname.get(k1);
+		toadd1[1] = fnamm.get(k1);
+		toadd1[2] = lnamm.get(k1);
+		
+	
+
+		transform3.add(toadd1);
+//		System.out.println(toadd1[0]);
+
+	}
+	String[][] mandata3 = new String[transform3.size()][3];
+	this.orvicdata = new String[transform3.size()][3];
+	for (int i = 0; i < transform3.size(); i++) {
+
+		mandata3[i] = transform3.get(i);
+
+	}
+	this.orvicdata = mandata3;
+	DefaultTableModel refresh3 = new DefaultTableModel(this.orvicdata, this.orvicdisplays);
+//System.out.println(this.orgodata[0][0]);
+	todisporvic.setModel(refresh3);
+	
+	
+	
+
+}
 
 	public MainGui() {
 		con.connect("ForbiddenArchives20", "KillPoliticians69");
@@ -584,9 +909,26 @@ public void searchOrg(String date, String date2) {
 		//make eventperp table
 		
 		JScrollPane eperpviewer = new JScrollPane(todispeperp);
-		JButton eventsearch = new JButton("Search Organization");
-		JLabel eventlabel = new JLabel("Organization name:");
+		JButton eventsearch = new JButton("Search Event");
+		JLabel eventlabel = new JLabel("Event name:");
 		JTextField eventse = new JTextField();
+		ActionListener searcheperp = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String eventname = eventse.getText();
+				
+				eventPerpUpdate(eventname);
+//				todisp.revalidate();
+//				todisp.repaint();
+				mainframe.revalidate();
+				mainframe.repaint();
+				fullframe.revalidate();
+				fullframe.repaint();
+
+			}
+		};
+		eventsearch.addActionListener(searcheperp);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 4;
 		gbc.gridy = 3;
@@ -614,6 +956,23 @@ public void searchOrg(String date, String date2) {
 		JLabel orgolabel = new JLabel("Organization name:");
 		JTextField orgose = new JTextField();
 		JScrollPane orgovicviewer = new JScrollPane(todisporvic);
+		ActionListener orgocisearch = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String orgname = orgose.getText();
+				
+				searchOrgVic(orgname);
+//				todisp.revalidate();
+//				todisp.repaint();
+				mainframe.revalidate();
+				mainframe.repaint();
+				fullframe.revalidate();
+				fullframe.repaint();
+
+			}
+		};
+		orgosearch.addActionListener(orgocisearch);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 4;
 		gbc.gridy = 3;
