@@ -163,12 +163,15 @@ public class OrganService{
 		}
 	}
 
-	public ArrayList<String> getOrganizationDesc() {
+	public ArrayList<String> getOrganizationDesc(boolean s, String date, String date2) {
 
 		ArrayList<String> orgdesc = new ArrayList<String>();
 
 		Statement stmt = null;
 		String query = "select Description from ForbiddenArchives.dbo.Organization";
+		if(s == true) {
+			query = query + " where DOE >= '" + date + "' AND DOE < '" + date2 + "'";
+		}
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();
@@ -196,12 +199,16 @@ public class OrganService{
 		return orgdesc;
 	}
 
-	public ArrayList<String> getOrganizationatt() {
+	public ArrayList<String> getOrganizationatt(boolean s, String date, String date2) {
 
 		ArrayList<String> orgatt = new ArrayList<String>();
 
 		Statement stmt = null;
 		String query = "select Attribute from ForbiddenArchives.dbo.Organization";
+		if(s == true) {
+			query = query + " where DOE >= '" + date + "' AND DOE < '" + date2 + "'";
+		}
+		
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();
@@ -229,12 +236,15 @@ public class OrganService{
 		return orgatt;
 	}
 
-	public ArrayList<String> getOrganizationDoe() {
+	public ArrayList<String> getOrganizationDoe(boolean s, String date, String date2) {
 
 		ArrayList<String> orgdoe = new ArrayList<String>();
 
 		Statement stmt = null;
 		String query = "select DOE from ForbiddenArchives.dbo.Organization";
+		if(s == true) {
+			query = query + " where DOE >= '" + date + "' AND DOE < '" + date2 + "'";
+		}
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();
@@ -262,12 +272,15 @@ public class OrganService{
 		return orgdoe;
 	}
 
-	public ArrayList<String> getOrganizationName() {
+	public ArrayList<String> getOrganizationName(boolean s, String date, String date2) {
 
 		ArrayList<String> orgname = new ArrayList<String>();
 
 		Statement stmt = null;
 		String query = "select [name] from ForbiddenArchives.dbo.Organization";
+		if(s == true) {
+			query = query + " where DOE >= '" + date + "' AND DOE < '" + date2 + "'";
+		}
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();

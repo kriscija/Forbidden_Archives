@@ -45,10 +45,169 @@ public class MainGui {
 
 	public void reinitializeData() {
 		
-		ArrayList<String> orgnam = this.orgoservice.getOrganizationName();
-		ArrayList<String> orgdesc = this.orgoservice.getOrganizationDesc();
-		ArrayList<String> orgdoe = this.orgoservice.getOrganizationDoe();
-		ArrayList<String> orgatt = this.orgoservice.getOrganizationatt();
+		ArrayList<String> orgnam = this.orgoservice.getOrganizationName(false,"","");
+		ArrayList<String> orgdesc = this.orgoservice.getOrganizationDesc(false,"","");
+		ArrayList<String> orgdoe = this.orgoservice.getOrganizationDoe(false,"","");
+		ArrayList<String> orgatt = this.orgoservice.getOrganizationatt(false,"","");
+		
+
+		ArrayList<String[]> transform = new ArrayList<String[]>();
+		for (int k = 0; k < orgnam.size(); k++) {
+			String[] toadd = new String[4];
+			toadd[0] = orgnam.get(k);
+			toadd[1] = orgdesc.get(k);
+			toadd[2] = orgatt.get(k);
+			toadd[3] = orgdoe.get(k);
+
+			transform.add(toadd);
+
+		}
+		String[][] mandata = new String[transform.size()][4];
+		this.orgodata = new String[transform.size()][4];
+		for (int i = 0; i < transform.size(); i++) {
+
+			mandata[i] = transform.get(i);
+
+		}
+		this.orgodata = mandata;
+		DefaultTableModel refresh = new DefaultTableModel(this.orgodata, this.orgodisplays);
+//System.out.println(this.orgodata[0][0]);
+		todisporgo.setModel(refresh);
+		
+		
+		//implement once that view is fixed
+		
+//		ArrayList<String> thnam = this.mainviewservice.getTheoryName();
+//		ArrayList<String> ths = this.mainviewservice.getTheorySummary();
+//		ArrayList<String> covorg = this.mainviewservice.getCoveredOrganization();
+//		ArrayList<String> orgdes = this.mainviewservice.getOrgDesc();
+//		ArrayList<String> conspev = this.mainviewservice.getConspEvent();
+//		ArrayList<String> evdesc = this.mainviewservice.getEventDescription();
+//		ArrayList<String> evtype = this.mainviewservice.getEventType();
+//		ArrayList<String> evdate = this.mainviewservice.getEventDate();
+//
+//
+//		ArrayList<String[]> transform1 = new ArrayList<String[]>();
+//		for (int k1 = 0; k1 < orgnam.size(); k1++) {
+//			String[] toadd1 = new String[8];
+//			toadd1[0] = thnam.get(k1);
+//			toadd1[1] = ths.get(k1);
+//			toadd1[2] = covorg.get(k1);
+//			toadd1[3] = orgdes.get(k1);
+//			toadd1[4] = conspev.get(k1);
+//			toadd1[5] = evdesc.get(k1);
+//			toadd1[6] = evtype.get(k1);
+//			toadd1[7] = evdate.get(k1);
+//
+//			transform1.add(toadd1);
+//
+//		}
+//		String[][] mandata1 = new String[transform1.size()][8];
+//		this.maindata = new String[transform1.size()][8];
+//		for (int i = 0; i < transform1.size(); i++) {
+//
+//			mandata1[i] = transform1.get(i);
+//
+//		}
+//		this.maindata = mandata1;
+//		DefaultTableModel refresh1 = new DefaultTableModel(this.maindata, this.maindisplays);
+////System.out.println(this.orgodata[0][0]);
+//		todispmain.setModel(refresh1);
+		
+		
+		
+		
+
+		ArrayList<String> fnam = this.eventperpview.getFname();
+		ArrayList<String> lnam = this.eventperpview.getLname();
+		ArrayList<String> descc = this.eventperpview.getDesc();
+		ArrayList<String> naam = this.eventperpview.getName();
+
+
+
+	
+		
+
+
+		ArrayList<String[]> transform2 = new ArrayList<String[]>();
+		for (int k1 = 0; k1 < naam.size(); k1++) {
+			String[] toadd1 = new String[4];
+			toadd1[0] = naam.get(k1);
+			toadd1[1] = descc.get(k1);
+			toadd1[2] = fnam.get(k1);
+			toadd1[3] = lnam.get(k1);
+		
+
+			transform2.add(toadd1);
+
+		}
+		String[][] mandata2 = new String[transform2.size()][4];
+		this.eperpdata = new String[transform2.size()][4];
+		for (int i = 0; i < transform2.size(); i++) {
+
+			mandata2[i] = transform2.get(i);
+
+		}
+		this.eperpdata = mandata2;
+		DefaultTableModel refresh2 = new DefaultTableModel(this.eperpdata, this.eperpdisplays);
+//System.out.println(this.orgodata[0][0]);
+		todispeperp.setModel(refresh2);
+		
+		
+		
+		
+		
+		
+		
+		
+		ArrayList<String> vietname = this.orgovicview.getName();
+		ArrayList<String> fnamm = this.orgovicview.getFname();
+		ArrayList<String> lnamm = this.orgovicview.getLname();
+
+		
+		
+
+
+
+	
+		
+
+
+		ArrayList<String[]> transform3 = new ArrayList<String[]>();
+		for (int k1 = 0; k1 < naam.size(); k1++) {
+			String[] toadd1 = new String[3];
+			toadd1[0] = vietname.get(k1);
+			toadd1[1] = fnamm.get(k1);
+			toadd1[2] = lnamm.get(k1);
+			
+		
+
+			transform3.add(toadd1);
+			System.out.println(toadd1[0]);
+
+		}
+		String[][] mandata3 = new String[transform3.size()][3];
+		this.orvicdata = new String[transform3.size()][3];
+		for (int i = 0; i < transform3.size(); i++) {
+
+			mandata3[i] = transform3.get(i);
+
+		}
+		this.orvicdata = mandata3;
+		DefaultTableModel refresh3 = new DefaultTableModel(this.orvicdata, this.orvicdisplays);
+//System.out.println(this.orgodata[0][0]);
+		todisporvic.setModel(refresh3);
+		
+		
+		
+
+	}
+public void searchOrg(String date, String date2) {
+		
+		ArrayList<String> orgnam = this.orgoservice.getOrganizationName(true,date,date2);
+		ArrayList<String> orgdesc = this.orgoservice.getOrganizationDesc(true,date,date2);
+		ArrayList<String> orgdoe = this.orgoservice.getOrganizationDoe(true,date,date2);
+		ArrayList<String> orgatt = this.orgoservice.getOrganizationatt(true,date,date2);
 		
 
 		ArrayList<String[]> transform = new ArrayList<String[]>();
@@ -340,6 +499,32 @@ public class MainGui {
 		// make orgo display screen
 		
 		JScrollPane todisporgopane = new JScrollPane(todisporgo);
+		JButton searchorg = new JButton("Filter");
+		JTextField date1 = new JTextField();
+		JTextField date2 = new JTextField();
+		JLabel datel = new JLabel("Est. >=");
+		JLabel date2l = new  JLabel("Est. < ");
+		
+		
+		ActionListener searchor = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String date1r = date1.getText();
+				String date2r = date2.getText();
+				
+				searchOrg(date1r,date2r);
+//				todisp.revalidate();
+//				todisp.repaint();
+				mainframe.revalidate();
+				mainframe.repaint();
+				fullframe.revalidate();
+				fullframe.repaint();
+
+			}
+		};
+		searchorg.addActionListener(searchor);
+		
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 4;
 		gbc.gridy = 3;
@@ -348,9 +533,31 @@ public class MainGui {
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		orgoviwer.add(backButton5, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 5;
+		gbc.gridy = 0;
+		orgoviwer.add(datel, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 6;
+		gbc.gridy = 0;
+		orgoviwer.add(date1, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 5;
+		gbc.gridy = 1;
+		orgoviwer.add(date2l, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 6;
+		gbc.gridy = 1;
+		orgoviwer.add(date2, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 6;
+		gbc.gridy = 2;
+		orgoviwer.add(searchorg, gbc);
 		
 		// make main viewer
-		
+		JButton mainsearch = new JButton("Search Theory");
+		JLabel mainlabel = new JLabel("Theory name:");
+		JTextField mainse = new JTextField();
 		JScrollPane todispmainviewer = new JScrollPane(todispmain);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 1;
@@ -360,11 +567,26 @@ public class MainGui {
 		gbc.gridx = 4;
 		gbc.gridy = 3;
 		viewmain.add(todispmainviewer, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 5;
+		gbc.gridy = 0;
+		viewmain.add(mainlabel, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 6;
+		gbc.gridy = 0;
+		viewmain.add(mainse, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 6;
+		gbc.gridy = 1;
+		viewmain.add(mainsearch, gbc);
 		
 		
 		//make eventperp table
 		
 		JScrollPane eperpviewer = new JScrollPane(todispeperp);
+		JButton eventsearch = new JButton("Search Organization");
+		JLabel eventlabel = new JLabel("Organization name:");
+		JTextField eventse = new JTextField();
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 4;
 		gbc.gridy = 3;
@@ -373,8 +595,24 @@ public class MainGui {
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		eventperppanel.add(backButton2, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 5;
+		gbc.gridy = 0;
+		eventperppanel.add(eventlabel, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 6;
+		gbc.gridy = 0;
+		eventperppanel.add(eventse, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 6;
+		gbc.gridy = 1;
+		eventperppanel.add(eventsearch, gbc);
+		
 		
 		//make orvic tablfm
+		JButton orgosearch = new JButton("Search Organization");
+		JLabel orgolabel = new JLabel("Organization name:");
+		JTextField orgose = new JTextField();
 		JScrollPane orgovicviewer = new JScrollPane(todisporvic);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 4;
@@ -384,6 +622,18 @@ public class MainGui {
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		orgovicpanel.add(backButton3, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 5;
+		gbc.gridy = 0;
+		orgovicpanel.add(orgolabel, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 6;
+		gbc.gridy = 0;
+		orgovicpanel.add(orgose, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 6;
+		gbc.gridy = 1;
+		orgovicpanel.add(orgosearch, gbc);
 		
 		
 		
