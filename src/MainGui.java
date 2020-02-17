@@ -3,9 +3,15 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -684,6 +690,18 @@ if(vietname.size() == 0) {
 	todisporvic.setModel(refresh3);
 	
 }
+private static void DisplayImage(JFrame fullframe2, String url) {
+	BufferedImage myPicture;
+	try {
+		myPicture = ImageIO.read(new File(url));
+		JLabel picLabel = new JLabel(new ImageIcon(myPicture));
+		fullframe2.add(picLabel);
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+}
 public void theorySearch(String theoryname) {
 	
 	ArrayList<String> orgnam = this.orgoservice.getOrganizationName(false,"","");
@@ -845,6 +863,8 @@ public void theorySearch(String theoryname) {
 
 
 	public MainGui() {
+		DisplayImage(fullframe,"jones-infowars.jpg" );
+		
 		
 		con.connect("ForbiddenArchives20", "KillPoliticians69");
 
@@ -1720,6 +1740,8 @@ System.out.println("reached1");
 		
 		
 		layout.addLayoutComponent(mainmenupanel, "mainmenupanel");
+		
+
 		mainframe.add(mainmenupanel);
 		mainframe.add(viewmain);
 		layout.addLayoutComponent(viewmain, "viewmain");
@@ -1733,6 +1755,7 @@ System.out.println("reached1");
 		layout.addLayoutComponent(orgovicpanel, "orgovicpanel");
 		mainframe.add(modifypanel);
 		layout.addLayoutComponent(modifypanel, "modifypanel");
+		
 		
 		System.out.println("reached2");
 
