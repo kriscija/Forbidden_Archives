@@ -1,3 +1,5 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -100,6 +102,38 @@ public class TheoryService {
 			JOptionPane.showMessageDialog(null, "ERROR: Invalid Data");
 			return false;
 		}
+	}
+
+	public boolean importTheory(String csvFilePath) {
+        try 
+	   {
+        	BufferedReader lineReader = new BufferedReader(new FileReader(csvFilePath));
+            String lineText = null;
+ 
+            int count = 0;
+ 
+            lineReader.readLine(); // skip header line
+ 
+            while ((lineText = lineReader.readLine()) != null) {
+                String[] data = lineText.split(",");
+                String title = data[0];
+                String summary = data[1];
+
+                boolean add = this.addTheory(title, summary);
+                if(!add) {
+                	System.err.println("Import failed on line: " + lineText);
+                }
+                
+            }
+ 
+            lineReader.close();
+	        System.out.println("Data Successfully Uploaded");
+	   }
+	   catch (Exception e)
+	   {
+	           e.printStackTrace();
+	   }
+		return false;
 	}
 
 	

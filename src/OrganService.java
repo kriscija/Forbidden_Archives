@@ -1,4 +1,6 @@
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -161,6 +163,40 @@ public class OrganService{
 			JOptionPane.showMessageDialog(null, "Your java code has problems, fix it dude!");
 			return false;
 		}
+	}
+	
+	public boolean importOrgo(String csvFilePath) {
+        try 
+	   {
+        	BufferedReader lineReader = new BufferedReader(new FileReader(csvFilePath));
+            String lineText = null;
+ 
+            int count = 0;
+ 
+            lineReader.readLine(); // skip header line
+ 
+            while ((lineText = lineReader.readLine()) != null) {
+                String[] data = lineText.split(",");
+                String desc = data[0];
+                String att = data[1];
+                String date = data[2];
+                String name = data[3];
+
+                boolean add = this.addOrgo(desc, att, date, name);
+                if(!add) {
+                	System.err.println("Import failed on line: " + lineText);
+                }
+                
+            }
+ 
+            lineReader.close();
+	        System.out.println("Data Successfully Uploaded");
+	   }
+	   catch (Exception e)
+	   {
+	           e.printStackTrace();
+	   }
+		return false;
 	}
 
 	public ArrayList<String> getOrganizationDesc(boolean s, String date, String date2) {

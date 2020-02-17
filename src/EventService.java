@@ -1,5 +1,7 @@
+import java.io.FileReader;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -7,6 +9,8 @@ import java.sql.Types;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
+
+import java.io.*;
 
 //Borrowed most of this from the lab
 public class EventService {
@@ -162,6 +166,41 @@ public class EventService {
 			JOptionPane.showMessageDialog(null, "Your java code has problems, fix it dude!");
 			return false;
 		}
+	}
+	
+	public boolean importEvent(String csvFilePath) {
+        try 
+	   {
+        	BufferedReader lineReader = new BufferedReader(new FileReader(csvFilePath));
+            String lineText = null;
+ 
+            int count = 0;
+ 
+            lineReader.readLine(); // skip header line
+ 
+            while ((lineText = lineReader.readLine()) != null) {
+                String[] data = lineText.split(",");
+                String type = data[0];
+                String date = data[1];
+                String desc = data[2];
+                String perpID = data[3];
+                String name = data[4];
+
+                boolean add = this.addEvent(type, date, desc, perpID, name);
+                if(!add) {
+                	System.err.println("Import failed on line: " + lineText);
+                }
+                
+            }
+ 
+            lineReader.close();
+	        System.out.println("Data Successfully Uploaded");
+	   }
+	   catch (Exception e)
+	   {
+	           e.printStackTrace();
+	   }
+		return false;
 	}
 
 	public ArrayList<String> getEventDesc() {

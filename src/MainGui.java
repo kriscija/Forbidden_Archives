@@ -1,8 +1,10 @@
 import java.awt.CardLayout;
+import java.awt.FileDialog;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -42,7 +44,8 @@ public class MainGui {
 	private JTable todisporvic = new JTable(orvicdata, orvicdisplays);
 	final CardLayout layout = new CardLayout();
 	final JPanel mainframe = new JPanel(layout);
-
+	final FileDialog fileDialog = new FileDialog(fullframe,"Select file for import");
+	
 	public void reinitializeData() {
 		
 		ArrayList<String> orgnam = this.orgoservice.getOrganizationName(false,"","");
@@ -1055,14 +1058,6 @@ if(vietname.size() == 0) {
 		JTextField per4f = new JTextField();
 		
 		
-		
-		
-		
-		
-
-
-		
-	
 
 
 //		mainframe.add(editorgo);
@@ -1319,6 +1314,26 @@ System.out.println("reached1");
 			}
 		};
 		
+		ActionListener importorgob = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fileDialog.setVisible(true);
+				String fileName = fileDialog.getDirectory() + fileDialog.getFile();
+				if(fileName.contentEquals("nullnull")) {
+					return;
+				}
+				System.out.println(fileName);
+
+				orgoservice.importOrgo(fileName);
+				reinitializeData();
+				mainframe.revalidate();
+				mainframe.repaint();
+				fullframe.revalidate();
+				fullframe.repaint();
+			}
+		};
+		
 		
 		ActionListener addtheb = new ActionListener() {
 
@@ -1377,6 +1392,26 @@ System.out.println("reached1");
 				fullframe.revalidate();
 				fullframe.repaint();
 
+			}
+		};
+		
+		ActionListener importtheb = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fileDialog.setVisible(true);
+				String fileName = fileDialog.getDirectory() + fileDialog.getFile();
+				if(fileName.contentEquals("nullnull")) {
+					return;
+				}
+				System.out.println(fileName);
+
+				theoryservice.importTheory(fileName);
+				reinitializeData();
+				mainframe.revalidate();
+				mainframe.repaint();
+				fullframe.revalidate();
+				fullframe.repaint();
 			}
 		};
 
@@ -1447,37 +1482,67 @@ System.out.println("reached1");
 
 			}
 		};
+		ActionListener importevb = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				fileDialog.setVisible(true);
+				String fileName = fileDialog.getDirectory() + fileDialog.getFile();
+				if(fileName.contentEquals("nullnull")) {
+					return;
+				}
+				System.out.println(fileName);
+
+				eventservice.importEvent(fileName);
+				reinitializeData();
+				mainframe.revalidate();
+				mainframe.repaint();
+				fullframe.revalidate();
+				fullframe.repaint();
+
+			}
+		};		
 		
 		
 		
 		JButton delorgo = new JButton("Delete Organization");
 		JButton uporgo = new JButton("Update Organization");
 		JButton addorgo = new JButton("Add Organization");
+		JButton importorgo  = new JButton("Import Organization");
+		
 		JButton delthe = new JButton("Delete Theory");
 		JButton upthe = new JButton("Update Theory");
 		JButton addthe = new JButton("Add Theory");
+		JButton importthe = new JButton("Import Theory");
+		
 		JButton delper = new JButton("Delete Person");
 		JButton upper = new JButton("Update Person");
 		JButton addper = new JButton("Add Person");
+		JButton importper = new JButton("Import Person");
+		
 		JButton delev = new JButton("Delete Event");
 		JButton upev = new JButton("Update Event");
 		JButton addev = new JButton("Add Event");
-		
-		
-		
-		
+		JButton importev = new JButton("Import Event");
 		
 		
 		delorgo.addActionListener(delorgob);
 		uporgo.addActionListener(uporgob);
 		addorgo.addActionListener(addorgob);
+		importorgo.addActionListener(importorgob);
+
+		
 		delthe.addActionListener(deltheb);
 		addthe.addActionListener(addtheb);
 		upthe.addActionListener(uptheb); 
+		importthe.addActionListener(importtheb);
+
+		
 		delev.addActionListener(delevb);
 		addev.addActionListener(addevb);
 		upev.addActionListener(upevb);
-
+		importev.addActionListener(importevb);
+		
 		
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 0;
@@ -1492,6 +1557,11 @@ System.out.println("reached1");
 		gbc.gridy = 9;
 		modifypanel.add(addorgo, gbc);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 3;
+		gbc.gridy = 9;
+		modifypanel.add(importorgo, gbc);
+		
+		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 0;
 		gbc.gridy = 10;
 		modifypanel.add(delthe, gbc);
@@ -1503,6 +1573,10 @@ System.out.println("reached1");
 		gbc.gridx = 2;
 		gbc.gridy = 10;
 		modifypanel.add(addthe, gbc);
+		gbc.gridx = 3;
+		gbc.gridy = 10;
+		modifypanel.add(importthe, gbc);
+		
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 0;
 		gbc.gridy = 11;
@@ -1515,6 +1589,10 @@ System.out.println("reached1");
 		gbc.gridx = 2;
 		gbc.gridy = 11;
 		modifypanel.add(addper, gbc);
+		gbc.gridx = 3;
+		gbc.gridy = 11;
+		modifypanel.add(importper, gbc);
+		
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 0;
 		gbc.gridy = 12;
@@ -1527,21 +1605,13 @@ System.out.println("reached1");
 		gbc.gridx = 2;
 		gbc.gridy = 12;
 		modifypanel.add(addev, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 3;
+		gbc.gridy = 12;
+		modifypanel.add(importev, gbc);
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+				
+	
 		
 		
 		layout.addLayoutComponent(mainmenupanel, "mainmenupanel");
