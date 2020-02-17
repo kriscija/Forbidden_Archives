@@ -8,22 +8,26 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+
+import service.OrgoService;
 
 public class OrgoGui {
 	CardLayout layout;
 	GridBagConstraints gbc;
 	JPanel mainframe;
 	JTable todisporgo;
-	
-	public OrgoGui(CardLayout layout, GridBagConstraints gbc, JPanel mainframe, JTable todisporgo) {
+	OrgoService orgoservice;
+	public OrgoGui(CardLayout layout, GridBagConstraints gbc, JPanel mainframe, JTable todisporgo, OrgoService orgoservice) {
 		this.layout = layout;
 		this.gbc = gbc;
 		this.mainframe = mainframe;
 		this.todisporgo = todisporgo;
+		this.orgoservice = orgoservice;
 	}
 	
 	public JPanel getOrgoGui() {
@@ -50,7 +54,8 @@ public class OrgoGui {
 		ActionListener addOrgoAL = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Insert Organziation Popup");
+				OrgoModifyGui omg = new OrgoModifyGui(orgoservice);
+				omg.modify();
 			}
 		};
 		addOrgo.addActionListener(addOrgoAL);

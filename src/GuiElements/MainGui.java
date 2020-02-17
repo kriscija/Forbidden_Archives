@@ -23,7 +23,7 @@ import db.DatabaseConnectionService;
 import service.EventPerpView;
 import service.EventService;
 import service.MainViewService;
-import service.OrganService;
+import service.OrgoService;
 import service.OrganizationVictimsView;
 import service.TheoryService;
 import service.UserService;
@@ -32,7 +32,7 @@ public class MainGui {
 	private JFrame fullframe = new JFrame("Forbidden Archives");
 	private DatabaseConnectionService con = new DatabaseConnectionService("golem.csse.rose-hulman.edu",
 			"ForbiddenArchives");
-	public OrganService orgoservice = new OrganService(con);
+	public OrgoService orgoservice = new OrgoService(con);
 	public UserService userservice = new UserService(con);
 	public TheoryService theoryservice = new TheoryService(con);
 	public EventService eventservice = new EventService(con);
@@ -709,8 +709,6 @@ public class MainGui {
 		JPanel orgovicpanel = new JPanel(orgovicview);
 		JPanel modifypanel = new JPanel(modifymenu);
 
-		fullframe.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
 		GridBagConstraints gbc = new GridBagConstraints();
 
 		// main menu stuff
@@ -777,7 +775,7 @@ public class MainGui {
 		viewer = vg.getViewerGui();
 
 		// make orgo display screen
-		OrgoGui og = new OrgoGui(layout, gbc, mainframe, todisporgo);
+		OrgoGui og = new OrgoGui(layout, gbc, mainframe, todisporgo, orgoservice);
 		orgoviewer = og.getOrgoGui();
 		JButton searchorg = new JButton("Filter");
 		JTextField date1 = new JTextField();
@@ -1536,7 +1534,7 @@ public class MainGui {
 		System.out.println("reached2");
 
 		fullframe.add(mainframe);
-		fullframe.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		fullframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		fullframe.setLocationByPlatform(true);
 		fullframe.pack();
 		fullframe.setVisible(true);

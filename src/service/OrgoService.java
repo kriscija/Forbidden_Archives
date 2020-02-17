@@ -16,9 +16,9 @@ import javax.swing.JOptionPane;
 import db.DatabaseConnectionService;
 
 //Borrowed most of this from the lab
-public class OrganService extends AbstractService{
+public class OrgoService extends AbstractService{
 
-	public OrganService(DatabaseConnectionService dbService) {
+	public OrgoService(DatabaseConnectionService dbService) {
 		super(dbService);
 		this.cols = new String[] {"id", "desc", "att", "date", "name"};
 		this.addStorProc = "dbo.add_Organization";
