@@ -1,3 +1,4 @@
+package service;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -8,6 +9,8 @@ import java.sql.Types;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
+
+import db.DatabaseConnectionService;
 
 //Borrowed most of this from the lab
 public class MainViewService{

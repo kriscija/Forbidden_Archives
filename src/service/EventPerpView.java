@@ -1,3 +1,4 @@
+package service;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -8,12 +9,14 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import db.DatabaseConnectionService;
+
 //Borrowed most of this from the lab
-public class OrganizationVictimsView{
+public class EventPerpView{
 
 	private DatabaseConnectionService dbService = null;
 
-	public OrganizationVictimsView(DatabaseConnectionService dbService) {
+	public EventPerpView(DatabaseConnectionService dbService) {
 		this.dbService = dbService;
 	}
 
@@ -162,21 +165,21 @@ public class OrganizationVictimsView{
 //		}
 //	}
 
-	public ArrayList<String> getorgID(boolean s, String orgname) {
+	public ArrayList<String> getEventID(boolean s, String eventname) {
 
 		ArrayList<String> thename = new ArrayList<String>();
 
 		Statement stmt = null;
-		String query = "select ID from ForbiddenArchives.dbo.OrganizationVictims";
+		String query = "select EventID from ForbiddenArchives.dbo.EventPerpetratorsView";
 		if(s == true) {
-			query = query + " where [name] = '" + orgname + "'";
+			query = query + " where [name] = '" + eventname + "'";
 		}
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				String nam = rs.getString("ID");
+				String nam = rs.getString("EventID");
 				thename.add(nam);
 
 			}
@@ -197,21 +200,21 @@ public class OrganizationVictimsView{
 
 		return thename;
 	}
-	public ArrayList<String> getName(boolean s, String orgname) {
+	public ArrayList<String> getPersonID(boolean s, String eventname) {
 
 		ArrayList<String> thename = new ArrayList<String>();
 
 		Statement stmt = null;
-		String query = "select [name] from ForbiddenArchives.dbo.OrganizationVictims";
+		String query = "select PersonID from ForbiddenArchives.dbo.EventPerpetratorsView";
 		if(s == true) {
-			query = query + " where [name] = '" + orgname + "'";
+			query = query + " where [name] = '" + eventname + "'";
 		}
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				String nam = rs.getString("name");
+				String nam = rs.getString("PersonID");
 				thename.add(nam);
 
 			}
@@ -232,49 +235,14 @@ public class OrganizationVictimsView{
 
 		return thename;
 	}
-	public ArrayList<String> getVicID(boolean s, String orgname) {
+	public ArrayList<String> getFname(boolean s, String eventname) {
 
 		ArrayList<String> thename = new ArrayList<String>();
 
 		Statement stmt = null;
-		String query = "select VictimID from ForbiddenArchives.dbo.OrganizationVictims";
+		String query = "select Fname from ForbiddenArchives.dbo.EventPerpetratorsView";
 		if(s == true) {
-			query = query + " where [name] = '" + orgname + "'";
-		}
-		try {
-			Connection con = this.dbService.getConnection();
-			stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			while (rs.next()) {
-				String nam = rs.getString("VictimID");
-				thename.add(nam);
-
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-
-					e.printStackTrace();
-				}
-			}
-
-		}
-
-		return thename;
-	}
-	public ArrayList<String> getFname(boolean s, String orgname) {
-
-		ArrayList<String> thename = new ArrayList<String>();
-
-		Statement stmt = null;
-		String query = "select Fname from ForbiddenArchives.dbo.OrganizationVictims";
-		if(s == true) {
-			query = query + " where [name] = '" + orgname + "'";
+			query = query + " where [name] = '" + eventname + "'";
 		}
 		try {
 			Connection con = this.dbService.getConnection();
@@ -302,14 +270,14 @@ public class OrganizationVictimsView{
 
 		return thename;
 	}
-	public ArrayList<String> getLname(boolean s, String orgname) {
+	public ArrayList<String> getLname(boolean s, String eventname) {
 
 		ArrayList<String> thename = new ArrayList<String>();
 
 		Statement stmt = null;
-		String query = "select Lname from ForbiddenArchives.dbo.OrganizationVictims";
+		String query = "select Lname from ForbiddenArchives.dbo.EventPerpetratorsView";
 		if(s == true) {
-			query = query + " where [name] = '" + orgname + "'";
+			query = query + " where [name] = '" + eventname + "'";
 		}
 		try {
 			Connection con = this.dbService.getConnection();
@@ -317,6 +285,76 @@ public class OrganizationVictimsView{
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
 				String nam = rs.getString("Lname");
+				thename.add(nam);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+
+					e.printStackTrace();
+				}
+			}
+
+		}
+
+		return thename;
+	}
+	public ArrayList<String> getDesc(boolean s, String eventname) {
+
+		ArrayList<String> thename = new ArrayList<String>();
+
+		Statement stmt = null;
+		String query = "select Description from ForbiddenArchives.dbo.EventPerpetratorsView";
+		if(s == true) {
+			query = query + " where [name] = '" + eventname + "'";
+		}
+		try {
+			Connection con = this.dbService.getConnection();
+			stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				String nam = rs.getString("Description");
+				thename.add(nam);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+
+					e.printStackTrace();
+				}
+			}
+
+		}
+
+		return thename;
+	}
+	public ArrayList<String> getName(boolean s, String eventname) {
+
+		ArrayList<String> thename = new ArrayList<String>();
+
+		Statement stmt = null;
+		String query = "select [name] from ForbiddenArchives.dbo.EventPerpetratorsView";
+		if(s == true) {
+			query = query + " where [name] = '" + eventname + "'";
+		}
+		try {
+			Connection con = this.dbService.getConnection();
+			stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+			while (rs.next()) {
+				String nam = rs.getString("name");
 				thename.add(nam);
 
 			}

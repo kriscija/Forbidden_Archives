@@ -1,7 +1,6 @@
-import java.io.FileReader;
+package service;
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -10,30 +9,29 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import java.io.*;
+import db.DatabaseConnectionService;
 
 //Borrowed most of this from the lab
-public class EventService {
+public class PersonService {
 
 	private DatabaseConnectionService dbService = null;
 
-	public EventService(DatabaseConnectionService dbService) {
+	public PersonService(DatabaseConnectionService dbService) {
 		this.dbService = dbService;
 	}
 
-	public boolean addEvent(String type, String date, String desc, String perpID, String name) {
+	public boolean addOrgo(String desc, String att, String date, String name) {
 		CallableStatement tocall = null;
 		int returnval = -5;
 
 		try {
-			tocall = this.dbService.getConnection().prepareCall("{ ? = call dbo.add_Event(?,?,?,?,?) }");
+			tocall = this.dbService.getConnection().prepareCall("{ ? = call dbo.add_Person(?,?,?,?) }");
 
 			tocall.registerOutParameter(1, Types.INTEGER);
-			tocall.setString(2, type);
-			tocall.setString(3, date);
-			tocall.setString(4, desc);
-			tocall.setString(5, perpID);
-			tocall.setString(6, name);
+			tocall.setString(2, desc);
+			tocall.setString(3, att);
+			tocall.setString(4, date);
+			tocall.setString(5, name);
 			System.out.println(date);
 			tocall.execute();
 			returnval = tocall.getInt(1);
@@ -72,12 +70,12 @@ public class EventService {
 			return false;
 		}
 	}
-	public boolean delEvent(int id) {
+	public boolean delPerson(int id) {
 		CallableStatement tocall = null;
 		int returnval = -5;
 
 		try {
-			tocall = this.dbService.getConnection().prepareCall("{ ? = call dbo.delete_Event(?) }");
+			tocall = this.dbService.getConnection().prepareCall("{ ? = call dbo.delete_Organization(?) }");
 
 			tocall.registerOutParameter(1, Types.INTEGER);
 			tocall.setInt(2, id);
@@ -110,20 +108,19 @@ public class EventService {
 			return false;
 		}
 	}
-	public boolean upEvent(int id,String type, String date, String desc, String perpID, String name) {
+	public boolean upOrgo(int id,String desc, String att, String date, String name) {
 		CallableStatement tocall = null;
 		int returnval = -5;
 
 		try {
-			tocall = this.dbService.getConnection().prepareCall("{ ? = call dbo.update_Event(?,?,?,?,?,?) }");
+			tocall = this.dbService.getConnection().prepareCall("{ ? = call dbo.update_Organization(?,?,?,?,?) }");
 
 			tocall.registerOutParameter(1, Types.INTEGER);
 			tocall.setInt(2, id);
-			tocall.setString(3, type);
-			tocall.setString(4, date);
-			tocall.setString(5, desc);
-			tocall.setString(6, perpID);
-			tocall.setString(7, name);
+			tocall.setString(3, desc);
+			tocall.setString(4, att);
+			tocall.setString(5, date);
+			tocall.setString(6, name);
 
 			tocall.execute();
 			returnval = tocall.getInt(1);
@@ -167,55 +164,20 @@ public class EventService {
 			return false;
 		}
 	}
-	
-	public boolean importEvent(String csvFilePath) {
-        try 
-	   {
-        	BufferedReader lineReader = new BufferedReader(new FileReader(csvFilePath));
-            String lineText = null;
- 
-            int count = 0;
- 
-            lineReader.readLine(); // skip header line
- 
-            while ((lineText = lineReader.readLine()) != null) {
-                String[] data = lineText.split(",");
-                String type = data[0];
-                String date = data[1];
-                String desc = data[2];
-                String perpID = data[3];
-                String name = data[4];
 
-                boolean add = this.addEvent(type, date, desc, perpID, name);
-                if(!add) {
-                	System.err.println("Import failed on line: " + lineText);
-                }
-                
-            }
- 
-            lineReader.close();
-	        System.out.println("Data Successfully Uploaded");
-	   }
-	   catch (Exception e)
-	   {
-	           e.printStackTrace();
-	   }
-		return false;
-	}
+	public ArrayList<String> getOrganizationDesc() {
 
-	public ArrayList<String> getEventDesc() {
-
-		ArrayList<String> eventdesc = new ArrayList<String>();
+		ArrayList<String> orgdesc = new ArrayList<String>();
 
 		Statement stmt = null;
-		String query = "select Description from ForbiddenArchives.dbo.ConspiracyEvent";
+		String query = "select Description from ForbiddenArchives.dbo.Organization";
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
 				String desc = rs.getString("Description");
-				eventdesc.add(desc);
+				orgdesc.add(desc);
 
 			}
 
@@ -233,22 +195,22 @@ public class EventService {
 
 		}
 
-		return eventdesc;
+		return orgdesc;
 	}
 
-	public ArrayList<String> getEventType() {
+	public ArrayList<String> getOrganizationatt() {
 
-		ArrayList<String> eventType = new ArrayList<String>();
+		ArrayList<String> orgatt = new ArrayList<String>();
 
 		Statement stmt = null;
-		String query = "select EventType from ForbiddenArchives.dbo.ConspiracyEvent";
+		String query = "select Attribute from ForbiddenArchives.dbo.Organization";
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				String att = rs.getString("EventType");
-				eventType.add(att);
+				String att = rs.getString("Attribute");
+				orgatt.add(att);
 
 			}
 
@@ -266,22 +228,22 @@ public class EventService {
 
 		}
 
-		return eventType;
+		return orgatt;
 	}
 
 	public ArrayList<String> getOrganizationDoe() {
 
-		ArrayList<String> eventDOO = new ArrayList<String>();
+		ArrayList<String> orgdoe = new ArrayList<String>();
 
 		Statement stmt = null;
-		String query = "select DateOfOccurence from ForbiddenArchives.dbo.ConspiracyEvent";
+		String query = "select DOE from ForbiddenArchives.dbo.Organization";
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				String doe = rs.getString("DateOfOccurence");
-				eventDOO.add(doe);
+				String doe = rs.getString("DOE");
+				orgdoe.add(doe);
 
 			}
 
@@ -299,22 +261,22 @@ public class EventService {
 
 		}
 
-		return eventDOO;
+		return orgdoe;
 	}
 
 	public ArrayList<String> getOrganizationName() {
 
-		ArrayList<String> eventName = new ArrayList<String>();
+		ArrayList<String> orgname = new ArrayList<String>();
 
 		Statement stmt = null;
-		String query = "select [Name] from ForbiddenArchives.dbo.ConspiracyEvent";
+		String query = "select [name] from ForbiddenArchives.dbo.Organization";
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				String nam = rs.getString("Name");
-				eventName.add(nam);
+				String nam = rs.getString("name");
+				orgname.add(nam);
 
 			}
 
@@ -332,6 +294,6 @@ public class EventService {
 
 		}
 
-		return eventName;
+		return orgname;
 	}
 }

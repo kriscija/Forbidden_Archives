@@ -6,6 +6,10 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import GuiElements.MainGui;
+import db.DatabaseConnectionService;
+import service.UserService;
+
 public class LoginForm extends javax.swing.JFrame {
 	private DatabaseConnectionService con = new DatabaseConnectionService("golem.csse.rose-hulman.edu",
 			"ForbiddenArchives");
