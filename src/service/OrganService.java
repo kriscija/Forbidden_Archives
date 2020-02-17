@@ -41,6 +41,7 @@ public class OrganService extends AbstractService{
 		this.updateErrorTable.put(5, "Invalid name");
 		this.updateErrorTable.put(3, "Attribute too long");
 		this.updateErrorTable.put(6, "ID already included");
+		this.dbService = dbService;
 	}
 
 	public ArrayList<String> getOrganizationDesc(boolean s, String date, String date2) {

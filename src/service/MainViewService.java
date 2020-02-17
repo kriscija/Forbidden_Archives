@@ -166,18 +166,22 @@ public class MainViewService{
 //		}
 //	}
 
-	public ArrayList<String> getTheoryName() {
+	public ArrayList<String> getTheoryName(boolean s, String theoryname) {
 
 		ArrayList<String> thename = new ArrayList<String>();
 
 		Statement stmt = null;
 		String query = "select [Theory Name] from ForbiddenArchives.dbo.Main_view";
+		if(s == true) {
+			query = query + " where [Theory Name] = '" + theoryname +  "'";
+		}
+		System.out.println(query);
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				String nam = rs.getString("[Theory Name]");
+				String nam = rs.getString("Theory Name");
 				thename.add(nam);
 
 			}
@@ -198,18 +202,21 @@ public class MainViewService{
 
 		return thename;
 	}
-	public ArrayList<String> getTheorySummary() {
+	public ArrayList<String> getTheorySummary(boolean s, String theoryname) {
 
 		ArrayList<String> thename = new ArrayList<String>();
 
 		Statement stmt = null;
 		String query = "select [Theory Summary] from ForbiddenArchives.dbo.Main_view";
+		if(s == true) {
+			query = query + " where [Theory Name] = '" + theoryname +  "'";
+		}
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				String nam = rs.getString("[Theory Summary]");
+				String nam = rs.getString("Theory Summary");
 				thename.add(nam);
 
 			}
@@ -230,18 +237,21 @@ public class MainViewService{
 
 		return thename;
 	}
-	public ArrayList<String> getCoveredOrganization() {
+	public ArrayList<String> getCoveredOrganization(boolean s, String theoryname) {
 
 		ArrayList<String> thename = new ArrayList<String>();
 
 		Statement stmt = null;
 		String query = "select [Covered Organization] from ForbiddenArchives.dbo.Main_view";
+		if(s == true) {
+			query = query + " where [Theory Name] = '" + theoryname +  "'";
+		}
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				String nam = rs.getString("[Covered Organization]");
+				String nam = rs.getString("Covered Organization");
 				thename.add(nam);
 
 			}
@@ -262,18 +272,21 @@ public class MainViewService{
 
 		return thename;
 	}
-	public ArrayList<String> getOrgDesc() {
+	public ArrayList<String> getOrgDesc(boolean s, String theoryname) {
 
 		ArrayList<String> thename = new ArrayList<String>();
 
 		Statement stmt = null;
 		String query = "select [Organization Description] from ForbiddenArchives.dbo.Main_view";
+		if(s == true) {
+			query = query + " where [Theory Name] = '" + theoryname +  "'";
+		}
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				String nam = rs.getString("[Organization Description]");
+				String nam = rs.getString("Organization Description");
 				thename.add(nam);
 
 			}
@@ -294,18 +307,21 @@ public class MainViewService{
 
 		return thename;
 	}
-	public ArrayList<String> getConspEvent() {
+	public ArrayList<String> getConspEvent(boolean s, String theoryname) {
 
 		ArrayList<String> thename = new ArrayList<String>();
 
 		Statement stmt = null;
 		String query = "select [Conspiracy Event] from ForbiddenArchives.dbo.Main_view";
+		if(s == true) {
+			query = query + " where [Theory Name] = '" + theoryname +  "'";
+		}
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				String nam = rs.getString("[Conspiracy Event]");
+				String nam = rs.getString("Conspiracy Event");
 				thename.add(nam);
 
 			}
@@ -326,18 +342,21 @@ public class MainViewService{
 
 		return thename;
 	}
-	public ArrayList<String> getEventDescription() {
+	public ArrayList<String> getEventDescription(boolean s, String theoryname) {
 
 		ArrayList<String> thename = new ArrayList<String>();
 
 		Statement stmt = null;
 		String query = "select [Event Description] from ForbiddenArchives.dbo.Main_view";
+		if(s == true) {
+			query = query + " where [Theory Name] = '" + theoryname +  "'";
+		}
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				String nam = rs.getString("[Event Description]");
+				String nam = rs.getString("Event Description");
 				thename.add(nam);
 
 			}
@@ -358,18 +377,21 @@ public class MainViewService{
 
 		return thename;
 	}
-	public ArrayList<String> getEventType() {
+	public ArrayList<String> getEventType(boolean s, String theoryname) {
 
 		ArrayList<String> thename = new ArrayList<String>();
 
 		Statement stmt = null;
 		String query = "select [Event Type] from ForbiddenArchives.dbo.Main_view";
+		if(s == true) {
+			query = query + " where [Theory Name] = '" + theoryname +  "'";
+		}
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				String nam = rs.getString("[Event Type]");
+				String nam = rs.getString("Event Type");
 				thename.add(nam);
 
 			}
@@ -390,18 +412,21 @@ public class MainViewService{
 
 		return thename;
 	}
-	public ArrayList<String> getEventDate() {
+	public ArrayList<String> getEventDate(boolean s, String theoryname) {
 
 		ArrayList<String> thename = new ArrayList<String>();
 
 		Statement stmt = null;
 		String query = "select [Event Date] from ForbiddenArchives.dbo.Main_view";
+		if(s == true) {
+			query = query + " where [Theory Name] = '" + theoryname +  "'";
+		}
 		try {
 			Connection con = this.dbService.getConnection();
 			stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				String nam = rs.getString("[Event Date]");
+				String nam = rs.getString("Event Date");
 				thename.add(nam);
 
 			}
