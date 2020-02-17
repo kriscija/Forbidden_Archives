@@ -27,9 +27,7 @@ public class EventPerpGui {
 	
 	public JPanel getEventPerpGui() {
 		JScrollPane eperpviewer = new JScrollPane(todispeperp);
-
 		JLabel eventlabel = new JLabel("Event name:");
-
 		JButton backViewer = new JButton("Back");
 		
 
