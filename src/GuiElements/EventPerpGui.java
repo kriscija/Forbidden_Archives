@@ -13,16 +13,20 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import service.EventPerpView;
+
 public class EventPerpGui {
 	CardLayout layout;
 	GridBagConstraints gbc;
 	JPanel mainframe;
 	JTable todispeperp;
-	public EventPerpGui(CardLayout layout, GridBagConstraints gbc, JPanel mainframe, JTable todispeperp) {
+	EventPerpView eventperpview;
+	
+	public EventPerpGui(CardLayout layout, GridBagConstraints gbc, JFrame fullframe, JPanel mainframe, EventPerpView eventperpview) {
 		this.layout = layout;
 		this.gbc = gbc;
 		this.mainframe = mainframe;
-		this.todispeperp = todispeperp;
+		this.eventperpview = eventperpview;;
 	}
 	
 	public JPanel getEventPerpGui() {
@@ -57,6 +61,34 @@ public class EventPerpGui {
 		eventperppanel.add(eventlabel, gbc);
 
 
+		JButton eventsearch = new JButton("Search Event");
+		JTextField eventse = new JTextField();
+		ActionListener searcheperp = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String eventname = eventse.getText();
+
+				eventPerpUpdate(eventname);
+				// todisp.revalidate();
+				// todisp.repaint();
+				mainframe.revalidate();
+				mainframe.repaint();
+				fullframe.revalidate();
+				fullframe.repaint();
+
+			}
+		};
+		eventsearch.addActionListener(searcheperp);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 6;
+		gbc.gridy = 0;
+		eventperppanel.add(eventse, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 6;
+		gbc.gridy = 1;
+
+		eventperppanel.add(eventsearch, gbc);
 		
 		return eventperppanel;
 	}

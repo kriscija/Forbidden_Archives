@@ -4,22 +4,30 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Vector;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 
 import db.DatabaseConnectionService;
 
 //Borrowed most of this from the lab
 public class OrgoService extends AbstractService{
-
+	
 	public OrgoService(DatabaseConnectionService dbService) {
 		super(dbService);
+		this.jtableCols = new String[]{ "ID", "Organization name", "Description", "Attributes", "Date of Establishment" };
+		
+		this.SQLtableCols = new String[]{ "ID", "name", "Description", "Attribute", "DOE" };
+		
 		this.cols = new String[] {"id", "desc", "att", "date", "name"};
 		this.addStorProc = "dbo.add_Organization";
 		this.deleteStorProc = "dbo.delete_Organization";
@@ -43,149 +51,69 @@ public class OrgoService extends AbstractService{
 		this.updateErrorTable.put(6, "ID already included");
 		this.dbService = dbService;
 	}
-
-	public ArrayList<String> getOrganizationDesc(boolean s, String date, String date2) {
-
-		ArrayList<String> orgdesc = new ArrayList<String>();
-
-		Statement stmt = null;
-		String query = "select Description from ForbiddenArchives.dbo.Organization";
-		if(s == true) {
-			query = query + " where DOE >= '" + date + "' AND DOE < '" + date2 + "'";
-		}
+	
+	public Vector<Vector<Object>> getValues(String dateFrom, String dateTo) {
+		PreparedStatement stmt = null;
 		try {
-			Connection con = this.dbService.getConnection();
-			stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			while (rs.next()) {
-				String desc = rs.getString("Description");
-				orgdesc.add(desc);
-
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-
-					e.printStackTrace();
-				}
-			}
-
-		}
-
-		return orgdesc;
-	}
-
-	public ArrayList<String> getOrganizationatt(boolean s, String date, String date2) {
-
-		ArrayList<String> orgatt = new ArrayList<String>();
-
-		Statement stmt = null;
-		String query = "select Attribute from ForbiddenArchives.dbo.Organization";
-		if(s == true) {
-			query = query + " where DOE >= '" + date + "' AND DOE < '" + date2 + "'";
+			String query = "select ID, name, Description, Attribute, DOE from ForbiddenArchives.dbo.Organization";
+			if((dateFrom !=null) || (dateTo !=null)){
+			query += " where ";
+			query += dateFrom!=null? "DOE >= ? " : "";
+			query += (dateFrom!=null && dateTo!=null)? " AND " : "";
+			query += dateTo!=null? "DOE < ? " : "";
 		}
 		
-		try {
-			Connection con = this.dbService.getConnection();
-			stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			while (rs.next()) {
-				String att = rs.getString("Attribute");
-				orgatt.add(att);
-
+			stmt = this.dbService.getConnection().prepareStatement(query);
+			int index = 1;
+			
+			if(dateFrom != null) {
+				stmt.setString(index++, dateFrom);
 			}
+			if(dateTo != null) {
+				stmt.setString(index++, dateTo);
+			}
+			
+			ResultSet rs = stmt.executeQuery();
+			//column names
+		    Vector<String> columnNames = new Vector<String>(Arrays.asList(this.jtableCols));
+		    int columnCount = columnNames.size();
 
-		} catch (SQLException e) {
-			e.printStackTrace();
+		    // data of the table
+		    Vector<Vector<Object>> data = new Vector<Vector<Object>>();
+		    while (rs.next()) {
+		        Vector<Object> vector = new Vector<Object>();
+		        for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
+		            vector.add(rs.getObject(columnIndex));
+		        }
+		        data.add(vector);
+		    }
+		    return data;			
+		
+		} catch (SQLException ex) {
+			
+	        if (this.dbService.getConnection() != null) {
+	        	 System.err.print("Transaction is being rolled back");
+	            try {
+	                this.dbService.getConnection().rollback();
+	            } catch(SQLException excep) {
+	            }
+	        }
+	       
 		} finally {
 			if (stmt != null) {
-				try {
+        		try {
 					stmt.close();
 				} catch (SQLException e) {
-
 					e.printStackTrace();
 				}
+        	}
+			try {
+				this.dbService.getConnection().setAutoCommit(true);
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-
 		}
-
-		return orgatt;
+		return null;
 	}
-
-	public ArrayList<String> getOrganizationDoe(boolean s, String date, String date2) {
-
-		ArrayList<String> orgdoe = new ArrayList<String>();
-
-		Statement stmt = null;
-		String query = "select DOE from ForbiddenArchives.dbo.Organization";
-		if(s == true) {
-			query = query + " where DOE >= '" + date + "' AND DOE < '" + date2 + "'";
-		}
-		try {
-			Connection con = this.dbService.getConnection();
-			stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			while (rs.next()) {
-				String doe = rs.getString("DOE");
-				orgdoe.add(doe);
-
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-
-					e.printStackTrace();
-				}
-			}
-
-		}
-
-		return orgdoe;
-	}
-
-	public ArrayList<String> getOrganizationName(boolean s, String date, String date2) {
-
-		ArrayList<String> orgname = new ArrayList<String>();
-
-		Statement stmt = null;
-		String query = "select [name] from ForbiddenArchives.dbo.Organization";
-		if(s == true) {
-			query = query + " where DOE >= '" + date + "' AND DOE < '" + date2 + "'";
-		}
-		try {
-			Connection con = this.dbService.getConnection();
-			stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(query);
-			while (rs.next()) {
-				String nam = rs.getString("name");
-				orgname.add(nam);
-
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-
-					e.printStackTrace();
-				}
-			}
-
-		}
-
-		return orgname;
-	}
+	
 }

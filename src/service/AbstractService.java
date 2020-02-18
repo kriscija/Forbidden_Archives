@@ -2,12 +2,17 @@ package service;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.sql.CallableStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 import db.DatabaseConnectionService;
 
@@ -18,6 +23,11 @@ public abstract class AbstractService {
 	String addStorProc;
 	String deleteStorProc;
 	String updateStorProc;
+	
+	Vector<Vector<Object>> data;
+	public String[] jtableCols;
+	
+	String[] SQLtableCols;
 	
 	Map<Integer, String> addErrorTable;
 	Map<Integer, String> deleteErrorTable;
@@ -123,6 +133,11 @@ public abstract class AbstractService {
 	           e.printStackTrace();
 	   }
 		return false;
+	}
+	
+	public DefaultTableModel buildTableModel(Vector<Vector<Object>> data, String[] jtableCols)
+	        throws SQLException {
+		return new DefaultTableModel(data, new Vector<String>(Arrays.asList(jtableCols)));
 	}
 	
 }
