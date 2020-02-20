@@ -22,6 +22,7 @@ import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
 import db.DatabaseConnectionService;
+import service.DevelopsService;
 import service.EventPerpView;
 import service.EventPerpetratorsService;
 import service.EventService;
@@ -55,6 +56,7 @@ public class MainGui {
 	public VictimsService victimsservice = new VictimsService(con);
 	public EventVictimsService eventvictimsservice = new EventVictimsService(con);
 	public TruthSeekerService truthseekerservice = new TruthSeekerService(con);
+	public DevelopsService developsservice = new DevelopsService(con);
 	
 	//
 	final CardLayout layout = new CardLayout();
@@ -132,6 +134,7 @@ public class MainGui {
 			    victimsservice.importCSV(directory+"/Victims.csv");
 			    eventvictimsservice.importCSV(directory+"/EventVictims.csv");
 			    truthseekerservice.importCSV(directory+"/TruthSeeker.csv");
+			    developsservice.importCSV(directory+"/Develops.csv");
 			    
 
 			    
