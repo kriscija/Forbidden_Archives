@@ -114,6 +114,21 @@ public class OrgoGui {
 			}
 		};
 		seeHierarchy.addActionListener(seeHier);
+		
+		ActionListener seeVic = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int row = orgoTable.getSelectedRow();
+				if(row == -1) {
+					return;
+				}
+				String ID = String.valueOf(orgoTable.getModel().getValueAt(row, 0));
+				System.out.println(ID);
+				hg.loadTable(ID);
+				layout.show(mainframe, "hierpanel");
+			}
+		};
+		seeVictims.addActionListener(seeVic);
 
 		searchorg.addActionListener(filterorgAL);
 		gbc.fill = GridBagConstraints.HORIZONTAL;

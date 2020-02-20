@@ -22,6 +22,7 @@ import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
 import db.DatabaseConnectionService;
+import service.CoversService;
 import service.DevelopsService;
 import service.EventPerpView;
 import service.EventPerpetratorsService;
@@ -41,7 +42,7 @@ import service.VictimsService;
 public class MainGui {
 	private JFrame fullframe = new JFrame("Forbidden Archives");
 	private DatabaseConnectionService con = new DatabaseConnectionService("golem.csse.rose-hulman.edu",
-			"ForbiddenArchives");
+			"ForbiddenArchives7");
 	public OrgoService orgoservice = new OrgoService(con);
 	public UserService userservice = new UserService(con);
 	public TheoryService theoryservice = new TheoryService(con);
@@ -57,6 +58,7 @@ public class MainGui {
 	public EventVictimsService eventvictimsservice = new EventVictimsService(con);
 	public TruthSeekerService truthseekerservice = new TruthSeekerService(con);
 	public DevelopsService developsservice = new DevelopsService(con);
+	public CoversService coversservice = new CoversService(con);
 	
 	//
 	final CardLayout layout = new CardLayout();
@@ -135,6 +137,7 @@ public class MainGui {
 			    eventvictimsservice.importCSV(directory+"/EventVictims.csv");
 			    truthseekerservice.importCSV(directory+"/TruthSeeker.csv");
 			    developsservice.importCSV(directory+"/Develops.csv");
+			    coversservice.importCSV(directory+"/Covers.csv");
 			    
 
 			    
