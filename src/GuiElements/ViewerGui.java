@@ -18,8 +18,7 @@ public class ViewerGui {
 	public JPanel getViewerGui() {
 		JButton showmainb = new JButton("Theories");
 		JButton showorgo = new JButton("Organizations");
-		JButton showeperps = new JButton("Event Perpetrators");
-		JButton showevictims = new JButton("Event Victims");
+		JButton showevents = new JButton("Events");
 		// main Jpanel constrution
 		GridBagLayout viewmenu = new GridBagLayout();
 		JPanel viewer = new JPanel(viewmenu);
@@ -37,29 +36,21 @@ public class ViewerGui {
 				layout.show(mainframe, "orgoviewer");
 			}
 		};
-		ActionListener shoeperps = new ActionListener() {
+		ActionListener shoevents = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				layout.show(mainframe, "eventperppanel");
+				layout.show(mainframe, "eventviewer");
 			}
 		};
-		ActionListener shoevictims = new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				layout.show(mainframe, "orgovicpanel");
-			}
-		};
 		showmainb.addActionListener(shomain);
 		showorgo.addActionListener(shorgo);
-		showeperps.addActionListener(shoeperps);
-		showevictims.addActionListener(shoevictims);
+		showevents.addActionListener(shoevents);
 
 		viewer.add(showmainb);
-		viewer.add(showeperps);
+		viewer.add(showevents);
 		viewer.add(showorgo);
-		viewer.add(showevictims);
 		
 		return viewer;
 	}

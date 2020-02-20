@@ -38,7 +38,7 @@ public class MainViewGui {
 		this.fullframe = fullframe;
 		this.mainviewservice = mainviewservice;
 		
-		Vector<Vector<Object>> data = this.mainviewservice.getValues();
+		Vector<Vector<Object>> data = this.mainviewservice.getValues(null);
 		try {
 			this.mainTable = new JTable(this.mainviewservice.buildTableModel(data, this.mainviewservice.jtableCols));
 			this.mainTable.removeColumn(this.mainTable.getColumnModel().getColumn(0));
@@ -51,7 +51,7 @@ public class MainViewGui {
 	
 	
 	public void loadTable(String title) {
-		Vector<Vector<Object>> data = this.mainviewservice.getValues();
+		Vector<Vector<Object>> data = this.mainviewservice.getValues(title);
 		DefaultTableModel model = (DefaultTableModel) this.mainTable.getModel();
 		try {
 			model = mainviewservice.buildTableModel(data, this.mainviewservice.jtableCols);

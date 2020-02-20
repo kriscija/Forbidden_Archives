@@ -19,6 +19,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import service.OrganizationVictimsView;
 import service.OrgoService;
 
 public class OrgoGui {
@@ -26,16 +27,21 @@ public class OrgoGui {
 	GridBagConstraints gbc;
 	JPanel mainframe;
 	JFrame fullframe;
+	//OrganizationVictimsView orgovicview;
 	OrgoService orgoservice;
 	JScrollPane todisporgopane;
+	OrgVicGui ovg;
+	HierarchyGui hg;
 	
 	JTable orgoTable;
 
-	public OrgoGui(CardLayout layout, GridBagConstraints gbc, JPanel mainframe, JFrame fullframe, OrgoService orgoservice) {
+	public OrgoGui(CardLayout layout, GridBagConstraints gbc, JPanel mainframe, JFrame fullframe, HierarchyGui hg, OrgVicGui ovg, OrgoService orgoservice) {
 		this.layout = layout;
 		this.gbc = gbc;
 		this.mainframe = mainframe;
 		this.fullframe = fullframe;
+		this.hg = hg;
+		this.ovg = ovg;
 		this.orgoservice = orgoservice;
 		
 		Vector<Vector<Object>> data = this.orgoservice.getValues(null, null);
@@ -67,6 +73,8 @@ public class OrgoGui {
 		JLabel datel = new JLabel("Est. >=");
 		JLabel date2l = new JLabel("Est. < ");
 		JButton backViewer = new JButton("Back");
+		JButton seeVictims = new JButton("See Victims");
+		JButton seeHierarchy = new JButton("See Hierarchy");
 		GridBagLayout orgo = new GridBagLayout();
 		JPanel orgoviewer = new JPanel(orgo);
 		JButton searchorg = new JButton("Filter");
@@ -91,6 +99,21 @@ public class OrgoGui {
 				loadTable(date1r, date2r);
 			}
 		};
+		
+		ActionListener seeHier = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int row = orgoTable.getSelectedRow();
+				if(row == -1) {
+					return;
+				}
+				String ID = String.valueOf(orgoTable.getModel().getValueAt(row, 0));
+				System.out.println(ID);
+				hg.loadTable(ID);
+				layout.show(mainframe, "hierpanel");
+			}
+		};
+		seeHierarchy.addActionListener(seeHier);
 
 		searchorg.addActionListener(filterorgAL);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -124,7 +147,9 @@ public class OrgoGui {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				OrgoModifyGui omg = new OrgoModifyGui();
-				orgoservice.add(omg.data);
+				if((omg.data[0] != null) && (!omg.data[0].equals(""))) {
+					orgoservice.add(omg.data);
+				}
 				loadTable(null, null);
 			}
 		};
@@ -193,6 +218,14 @@ public class OrgoGui {
 		gbc.gridx = 4;
 		gbc.gridy = 6;
 		orgoviewer.add(modifyOrgo, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 5;
+		gbc.gridy = 3;
+		orgoviewer.add(seeVictims, gbc);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 6;
+		gbc.gridy = 3;
+		orgoviewer.add(seeHierarchy, gbc);
 			
 
 		return orgoviewer;

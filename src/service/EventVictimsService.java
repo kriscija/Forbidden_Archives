@@ -1,32 +1,25 @@
 package service;
-import java.sql.CallableStatement;
-import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Types;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Vector;
 
-import javax.swing.JOptionPane;
-
 import db.DatabaseConnectionService;
 
-//Borrowed most of this from the lab
-public class EventPerpView extends AbstractService{
-	
-	public EventPerpView(DatabaseConnectionService dbService) {
+public class EventVictimsService extends AbstractService{
+	public EventVictimsService(DatabaseConnectionService dbService) {
 		super(dbService);
-		this.jtableCols = new String[] {"First Name", "Last Name", "What They Did", "Who Are They With"};
+		this.jtableCols = new String[] {"First Name", "Last Name", "Description"};
+		this.cols = new String[] {"EventID", "VictimID", "Description"};
+		this.addStorProc = "dbo.add_EventVictim";
 	}
 	
-
 	public Vector<Vector<Object>> getValues(String ID) {
 		PreparedStatement stmt = null;
 		try {
-			String query = "select FName, LName, Description, name from ForbiddenArchives.dbo.EventPerpetratorsView";
+			String query = "select Person.FName, Person.LName, Description from ForbiddenArchives.dbo.EventVictims Join Victim on Victim.PersonID = EventVictims.VictimID Join Person on Person.ID = Victim.PersonID";
 			if(ID != null){
 			query += " where EventID = ?";
 		}

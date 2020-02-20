@@ -18,23 +18,24 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import service.EventPerpView;
+import service.EventVictimsService;
 
-public class EventPerpGui {
+public class EventVictimGui {
 	CardLayout layout;
 	GridBagConstraints gbc;
 	JPanel mainframe;
-	JTable eventPerpTable;
-	EventPerpView eventperpview;
+	JTable eventVictimTable;
+	EventVictimsService evemtvictimsservice;
 	
-	public EventPerpGui(CardLayout layout, GridBagConstraints gbc, JPanel mainframe, JFrame fullframe, EventPerpView eventperpview) {
+	public EventVictimGui(CardLayout layout, GridBagConstraints gbc, JPanel mainframe, JFrame fullframe, EventVictimsService eventviewservice) {
 		this.layout = layout;
 		this.gbc = gbc;
 		this.mainframe = mainframe;
-		this.eventperpview = eventperpview;
+		this.evemtvictimsservice = eventviewservice;
 		
-		Vector<Vector<Object>> data = this.eventperpview.getValues(null);
+		Vector<Vector<Object>> data = this.evemtvictimsservice.getValues(null);
 		try {
-			this.eventPerpTable = new JTable(this.eventperpview.buildTableModel(data, this.eventperpview.jtableCols));
+			this.eventVictimTable = new JTable(this.evemtvictimsservice.buildTableModel(data, this.evemtvictimsservice.jtableCols));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -42,27 +43,26 @@ public class EventPerpGui {
 	}
 	
 	public void loadTable(String ID) {
-		Vector<Vector<Object>> data = this.eventperpview.getValues(ID);
-		DefaultTableModel model = (DefaultTableModel) this.eventPerpTable.getModel();
+		Vector<Vector<Object>> data = this.evemtvictimsservice.getValues(ID);
+		DefaultTableModel model = (DefaultTableModel) this.eventVictimTable.getModel();
 		try {
-			model = eventperpview.buildTableModel(data, this.eventperpview.jtableCols);
+			model = evemtvictimsservice.buildTableModel(data, this.evemtvictimsservice.jtableCols);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch blocky33
 			e.printStackTrace();
 		} // for example
-		this.eventPerpTable.setModel(model);
+		this.eventVictimTable.setModel(model);
 		model.fireTableDataChanged();
 		
 		
 	}
 	
-	public JPanel getEventPerpGui() {
-		JScrollPane eperpviewer = new JScrollPane(eventPerpTable);
-
+	public JPanel getEventVictimGui() {
+		JScrollPane evictimviewer = new JScrollPane(eventVictimTable);
 		JButton backViewer = new JButton("Back");
 
 		GridBagLayout eventperp = new GridBagLayout();
-		JPanel eventperppanel = new JPanel(eventperp);
+		JPanel eventvictimpanel = new JPanel(eventperp);
 		
 		ActionListener backToView = new ActionListener() {
 			@Override
@@ -76,13 +76,13 @@ public class EventPerpGui {
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 4;
 		gbc.gridy = 3;
-		eventperppanel.add(eperpviewer, gbc);
+		eventvictimpanel.add(evictimviewer, gbc);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		eventperppanel.add(backViewer, gbc);
+		eventvictimpanel.add(backViewer, gbc);
 
 		
-		return eventperppanel;
+		return eventvictimpanel;
 	}
 }

@@ -1,6 +1,6 @@
 package GuiElements;
+
 import java.awt.CardLayout;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -17,24 +17,29 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import service.EventPerpView;
+import service.HierarchyService;
+import service.OrganizationVictimsView;
+import service.TheoryService;
 
-public class EventPerpGui {
+public class HierarchyGui {
 	CardLayout layout;
 	GridBagConstraints gbc;
 	JPanel mainframe;
-	JTable eventPerpTable;
-	EventPerpView eventperpview;
+	JFrame fullframe;
+	JTable orghierTable;
+	HierarchyService hierservice;
 	
-	public EventPerpGui(CardLayout layout, GridBagConstraints gbc, JPanel mainframe, JFrame fullframe, EventPerpView eventperpview) {
+	public HierarchyGui(CardLayout layout, GridBagConstraints gbc, JPanel mainframe, JFrame fullframe, HierarchyService hierservice) {
+		// make main viewer
 		this.layout = layout;
 		this.gbc = gbc;
 		this.mainframe = mainframe;
-		this.eventperpview = eventperpview;
+		this.fullframe = fullframe;
+		this.hierservice = hierservice; 
 		
-		Vector<Vector<Object>> data = this.eventperpview.getValues(null);
+		Vector<Vector<Object>> data = this.hierservice.getValues(null);
 		try {
-			this.eventPerpTable = new JTable(this.eventperpview.buildTableModel(data, this.eventperpview.jtableCols));
+			this.orghierTable = new JTable(this.hierservice.buildTableModel(data, this.hierservice.jtableCols));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -42,47 +47,54 @@ public class EventPerpGui {
 	}
 	
 	public void loadTable(String ID) {
-		Vector<Vector<Object>> data = this.eventperpview.getValues(ID);
-		DefaultTableModel model = (DefaultTableModel) this.eventPerpTable.getModel();
+		Vector<Vector<Object>> data = this.hierservice.getValues(ID);
+		DefaultTableModel model = (DefaultTableModel) this.orghierTable.getModel();
 		try {
-			model = eventperpview.buildTableModel(data, this.eventperpview.jtableCols);
+			model = hierservice.buildTableModel(data, this.hierservice.jtableCols);
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch blocky33
 			e.printStackTrace();
 		} // for example
-		this.eventPerpTable.setModel(model);
+		this.orghierTable.setModel(model);
+
 		model.fireTableDataChanged();
-		
 		
 	}
 	
-	public JPanel getEventPerpGui() {
-		JScrollPane eperpviewer = new JScrollPane(eventPerpTable);
+	public JPanel getOrgVicGui() {
+		// make orvic table
 
+		GridBagLayout orghiergrid = new GridBagLayout();
+		JScrollPane orghierviewer = new JScrollPane(orghierTable);
 		JButton backViewer = new JButton("Back");
+		JPanel orgohierpanel = new JPanel(orghiergrid);
 
-		GridBagLayout eventperp = new GridBagLayout();
-		JPanel eventperppanel = new JPanel(eventperp);
-		
 		ActionListener backToView = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				layout.show(mainframe, "eventviewer");
+				layout.show(mainframe, "orgoviewer");
 			}
 		};
 		backViewer.addActionListener(backToView);
 		
-
+		
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 4;
 		gbc.gridy = 3;
-		eventperppanel.add(eperpviewer, gbc);
+		orgohierpanel.add(orghierviewer, gbc);
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		eventperppanel.add(backViewer, gbc);
+		orgohierpanel.add(backViewer, gbc);
 
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		orgohierpanel.add(backViewer, gbc);
 		
-		return eventperppanel;
+		return orgohierpanel;		
 	}
+
+
 }

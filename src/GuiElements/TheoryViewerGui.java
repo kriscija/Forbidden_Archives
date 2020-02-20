@@ -26,16 +26,16 @@ public class TheoryViewerGui {
 	JPanel mainframe;
 	JFrame fullframe;
 	TheoryService theoryservice;
-	MainViewService mainviewservice;
+	MainViewGui mvg;
 	JTable theoryTable;
 
-	public TheoryViewerGui(CardLayout layout, GridBagConstraints gbc, JPanel mainframe, JFrame fullframe, MainViewService mainviewservice, TheoryService theoryservice) {
+	public TheoryViewerGui(CardLayout layout, GridBagConstraints gbc, JPanel mainframe, JFrame fullframe, MainViewGui mvg, TheoryService theoryservice) {
 		// make main viewer
 		this.layout = layout;
 		this.gbc = gbc;
 		this.mainframe = mainframe;
 		this.fullframe = fullframe;
-		this.mainviewservice = mainviewservice;
+		this.mvg = mvg;
 		this.theoryservice = theoryservice;
 		
 		Vector<Vector<Object>> data = this.theoryservice.getValues(null);
@@ -102,7 +102,8 @@ public class TheoryViewerGui {
 				if(row == -1) {
 					return;
 				}
-				mainviewservice.theory_name = (String) theoryTable.getValueAt(row, 1);
+				String theory_name = (String) theoryTable.getValueAt(row, 0);
+				mvg.loadTable(theory_name);
 				layout.show(mainframe, "mainviewer");
 			}
 		};
@@ -111,7 +112,9 @@ public class TheoryViewerGui {
 		ActionListener addTheory = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				TheoryModifyGui tmg = new TheoryModifyGui();
-				theoryservice.add(tmg.data);
+				if((tmg.data[0] != null) && (!tmg.data[0].equals(""))) {
+					theoryservice.add(tmg.data);
+				}
 				loadTable(null);
 			}
 		};

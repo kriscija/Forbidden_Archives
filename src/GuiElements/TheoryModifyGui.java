@@ -1,5 +1,6 @@
 package GuiElements;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -34,6 +35,8 @@ public class TheoryModifyGui {
 		
         JTextField Title = new JTextField("");        
         JTextField Summary = new JTextField("");
+        Summary.setPreferredSize(new Dimension(300, 100));
+        Title.setPreferredSize(new Dimension(300, 40));
         
         JPanel panel = new JPanel(new GridLayout(0, 1));
         
@@ -47,8 +50,10 @@ public class TheoryModifyGui {
         int result = JOptionPane.showConfirmDialog(null, panel, "Test",
             JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
         if (result == JOptionPane.OK_OPTION) {
-            this.data[0] = Title.getText();
-            this.data[1] = Summary.getText();
+        	if(!Title.getText().equals("")) {
+	            this.data[0] = Title.getText();
+	            this.data[1] = Summary.getText();
+        	}
         } else {
             System.out.println("Data input Failed");
         }

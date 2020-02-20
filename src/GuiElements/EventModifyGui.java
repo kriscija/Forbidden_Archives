@@ -1,10 +1,10 @@
 package GuiElements;
-
 import java.awt.GridLayout;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.swing.JComboBox;
@@ -13,17 +13,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
-import javax.swing.*;
-import java.util.Date;
-
-import service.OrgoService;
-
-public class OrgoModifyGui {
+public class EventModifyGui {
 	JFrame dataEntryWindow;
 	
 	String[] data;
@@ -35,19 +31,8 @@ public class OrgoModifyGui {
 	String defName;
 	
 	//constructor for adding
-	public OrgoModifyGui() {
-		this("", "", null, "");
-	}
-	
-	//constructor for modifying
-	public OrgoModifyGui(String orgdesc, String orgatt, Date orgdate, String orgname) {
-		this.defDesc = orgdesc;
-		this.defAtt = orgatt;
-		this.defDate = orgdate;
-		this.defName = orgname;
-		
+	public EventModifyGui(String[] orgos) {		
         JTextField name = new JTextField(defName);
-        
         
         UtilDateModel model = new UtilDateModel();
         if (this.defDate != null) {
@@ -63,34 +48,38 @@ public class OrgoModifyGui {
         JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
         JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
         
-        JTextField att = new JTextField(defAtt);
+        JTextField type = new JTextField(defAtt);
         JTextField desc = new JTextField(defDesc);
+        JComboBox orgo = new JComboBox(orgos);
+        
         JPanel panel = new JPanel(new GridLayout(0, 1));
         
+        panel.add(new JLabel("Type:"));
+        panel.add(type);
         panel.add(new JLabel("Name:"));
         panel.add(name);
-        panel.add(new JLabel("Date of Establishment:"));
+        panel.add(new JLabel("Date:"));
         panel.add(datePicker);
         //panel.add(d);
-        panel.add(new JLabel("Attributes:"));
-        panel.add(att);
-        panel.add(new JLabel("Description"));
+        panel.add(new JLabel("Organization:"));
+        panel.add(orgo);
+        
+        panel.add(new JLabel("Desc:"));
         panel.add(desc);
         
-        this.data = new String[4];
+        this.data = new String[5];
         
         int result = JOptionPane.showConfirmDialog(null, panel, "Test",
             JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
         if (result == JOptionPane.OK_OPTION) {
-            this.data[0] = desc.getText();
-            this.data[1] = att.getText();
+            this.data[0] = type.getText();
             
             DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-            System.out.println((String) dateFormat.format(datePicker.getModel().getValue()));
-            //this.data[2] = "02/05/2020";
-            this.data[2] = (String) dateFormat.format(datePicker.getModel().getValue());
-            //this.data[2] = date.getText();
-            this.data[3] = name.getText();
+            this.data[1] = (String) dateFormat.format(datePicker.getModel().getValue());
+            //this.data[1] = "02/05/2020";
+            this.data[2] = desc.getText();
+            this.data[3] = (String) orgo.getSelectedItem();
+            this.data[4] = name.getText();
         } else {
             System.out.println("Data input Failed");
         }
